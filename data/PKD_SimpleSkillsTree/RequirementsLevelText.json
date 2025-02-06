@@ -1,0 +1,15 @@
+{
+    "text": {
+        "visible": true,
+        "size": { "w": 100, "h": 16 },
+        "alignment": "left",
+        "font": { "face": null, "size": 12, "italic": false },
+        "margins": { "x": 0, "y": 0 },
+        "outline": { "color": null, "width": 2 },
+        "textColor": "#8d796c"
+    },
+    "position": {
+        "x": 480,
+        "y": 298
+    }
+}

@@ -1,0 +1,8 @@
+[
+null,
+{"id":1,"battlerName":"Actor1_5","characterIndex":0,"characterName":"Party","classId":1,"equips":[0,0,0,2,0],"faceIndex":0,"faceName":"Party","traits":[],"initialLevel":1,"maxLevel":99,"name":"Toi","nickname":"","note":"","profile":""},
+{"id":2,"battlerName":"Actor1_2","characterIndex":1,"characterName":"Party","classId":2,"equips":[0,0,0,2,0],"faceIndex":1,"faceName":"Party","traits":[],"initialLevel":1,"maxLevel":99,"name":"Hoa","nickname":"","note":"","profile":""},
+{"id":3,"battlerName":"SF_Actor3_6","characterIndex":2,"characterName":"Party","classId":3,"equips":[0,0,0,0,0],"faceIndex":0,"faceName":"","traits":[],"initialLevel":1,"maxLevel":99,"name":"Cardani","nickname":"","note":"","profile":""},
+{"id":4,"battlerName":"SF_Actor1_3","characterIndex":3,"characterName":"Party","classId":4,"equips":[0,0,0,0,0],"faceIndex":2,"faceName":"Party","traits":[],"initialLevel":1,"maxLevel":99,"name":"Edoc","nickname":"","note":"","profile":""},
+{"id":5,"battlerName":"","characterIndex":0,"characterName":"","classId":5,"equips":[0,0,0,0,0],"faceIndex":0,"faceName":"","traits":[],"initialLevel":1,"maxLevel":99,"name":"Unnamed Character","nickname":"","note":"","profile":""}
+]

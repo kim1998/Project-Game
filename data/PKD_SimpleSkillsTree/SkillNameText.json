@@ -1,0 +1,36 @@
+{
+    "text": {
+        "visible": true,
+        "size": {
+            "w": 370,
+            "h": 45
+        },
+        "alignment": "center",
+        "font": {
+            "face": null,
+            "size": 22,
+            "italic": false
+        },
+        "margins": {
+            "x": 0,
+            "y": 0
+        },
+        "outline": {
+            "color": null,
+            "width": 2
+        },
+        "textColor": "#e3af4c",
+        "shadow": {
+            "color": "#000",
+            "opacity": 200,
+            "margins": {
+                "x": 1,
+                "y": 1
+            }
+        }
+    },
+    "position": {
+        "x": 392,
+        "y": 98
+    }
+}

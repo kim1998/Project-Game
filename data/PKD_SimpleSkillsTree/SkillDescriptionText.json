@@ -1,0 +1,15 @@
+{
+    "text": {
+        "visible": true,
+        "size": { "w": 340, "h": 60 },
+        "font": { "face": null, "size": 13, "italic": false },
+        "margins": { "x": 0, "y": 0 },
+        "singleLine": false,
+        "forceCentered": false
+    },
+    "position": {
+        "x": 410,
+        "y": 168
+    },
+    "opacity": 240
+}
