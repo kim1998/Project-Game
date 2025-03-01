@@ -728,9 +728,9 @@ Gab_Window.prototype.updateAnchor = function() {
     if (this.data().anchor) {
         this.anchor = this.data().anchor;
     } else if (this.data().eventId !== undefined) {
-        this.anchor = { x: 0.5, y: 1.0 };
+        this.anchor = { x: 0.5, y: 1 }; //Default 0.5, 1.0 | Fixed 1.05, 1.5
     } else if (this.data().target) {
-        this.anchor = { x: 0.5, y: 1.0 };
+        this.anchor = { x: 0.5, y: 1.0 }; //Default 0.5, 1.0
     } else {
         this.anchor = { x: 0, y: 0 };
     }

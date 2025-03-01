@@ -2120,7 +2120,7 @@ Scene_CoreShop.prototype.createShopStockWindow = function() {
 };
 
 Scene_CoreShop.prototype.shopStockWindowRect = function() {
-    const ww = this.statusWidth();
+    const ww = this.statusWidth()/2;
     var wh = this._dummyWindow.height - this._categoryWindow.height;
     if($gameShop._coreShops[$gameShop._tempShopId].maxWeight > 0) {
         wh = this._dummyWindow.height - this._categoryWindow.height - this._shopTitleWindow.height;
@@ -3320,29 +3320,60 @@ Window_ShopStock.prototype.refresh = function() {
     this.drawRequirements();
 };
 
+// Window_ShopStock.prototype.drawShopStock = function() {
+//     const text = "Shop Possession";
+//     const x = 6;
+//     const y = 6 + this.lineHeight()*this._increment;
+//     const maxWidth = this.width;
+//     const align = 'left';
+//     let item = null;
+//     if(SceneManager._scene._buyWindow && SceneManager._scene._buyWindow.isOpenAndActive()) {
+//         item = SceneManager._scene._buyWindow.item();
+//         if(item !== null) {
+//             amount = $gameShop.getAmountSoldForItem(item)
+//         }
+//     }
+//     this.changeTextColor(ColorManager.systemColor());
+//     this.drawText(text, x, y, maxWidth, align);
+//     this.resetTextColor();
+//     let textWidth = this.textWidth("00");
+//     if(amount === '') {
+//         amount = Dungeonmind.CS.infiniteSymbol;   
+//     } else { 
+//         amount = String(amount);
+//     }
+//     this.drawText(amount, x-textWidth-16, y, maxWidth, 'right');
+// };
+
 Window_ShopStock.prototype.drawShopStock = function() {
     const text = "Shop Possession";
     const x = 6;
-    const y = 6 + this.lineHeight()*this._increment;
+    const y = 6 + this.lineHeight() * this._increment;
     const maxWidth = this.width;
     const align = 'left';
     let item = null;
-    if(SceneManager._scene._buyWindow && SceneManager._scene._buyWindow.isOpenAndActive()) {
+    if (SceneManager._scene._buyWindow && SceneManager._scene._buyWindow.isOpenAndActive()) {
         item = SceneManager._scene._buyWindow.item();
-        if(item !== null) {
-            amount = $gameShop.getAmountSoldForItem(item)
+        if (item !== null) {
+            amount = $gameShop.getAmountSoldForItem(item);
         }
     }
     this.changeTextColor(ColorManager.systemColor());
+    
+    // Change font size for "Shop Possession"
+    const originalFontSize = this.contents.fontSize;
+    this.contents.fontSize = 14; // Set your desired font size here
     this.drawText(text, x, y, maxWidth, align);
+    
     this.resetTextColor();
     let textWidth = this.textWidth("00");
-    if(amount === '') {
-        amount = Dungeonmind.CS.infiniteSymbol;   
-    } else { 
+    if (amount === '') {
+        amount = Dungeonmind.CS.infiniteSymbol;
+    } else {
         amount = String(amount);
     }
-    this.drawText(amount, x-textWidth-16, y, maxWidth, 'right');
+    this.drawText(amount, x - textWidth - 16, y, maxWidth, 'right');
+    this.contents.fontSize = originalFontSize; // Reset to original font size
 };
 
 Window_ShopStock.prototype.drawItemWeight = function() {
