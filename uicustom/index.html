@@ -1,0 +1,1779 @@
+<head>
+    <!-- jQuery library -->
+    <script src="jQuery.js"></script>
+
+    <!-- local CSS and JS -->
+    <link rel="stylesheet" href="index.css" />
+    <script src="index.js"></script>
+
+    <!-- Bootstrap 5.3 -->
+    <link href="bootstrap.min.css" rel="stylesheet" />
+    <script src="bootstrap.bundle.min.js"></script>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+</head>
+
+<body data-bs-theme="dark">
+    <div>
+        <div class="card">
+            <h1 class="card-header">Main Menu Scene</h1>
+            <div class="card-body">
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#templates">
+                        Quick Templates
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="templates">
+                        <div class="d-flex">
+                            <div class="me-4">
+                                <select class="form-select" id="quicktemplate">
+                                    <option value="rows">Rows</option>
+                                    <option value="columns">Columns</option>
+                                    <option value="singleActor">Single Actor</option>
+                                    <option value="noStatus">No Status Window</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-outline-success"
+                                    onclick="onQuickTemplate(quicktemplate.value)">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#touchUI">
+                        Touch UI
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="touchUI">
+                        <label class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" id="noTouchUI"
+                                onchange="onNoTouchUIChange(noTouchUI.checked)" />
+                            <span class="form-check label">No Touch UI?</span>
+                        </label>
+                        <p class="info">
+                            <span class="bi bi-info-square me-1"></span>
+                            Removes Touch UI from your game and also the command from the Options Menu.
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#layout">
+                        Layout 1
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="layout">
+                        <label class="form-label">Input Mode (all Scenes)</label>
+                        <div class="form-row mb-4">
+                            <div class="btn-group">
+                                <button type="button" class="btn" id="commandInputModeLeft"
+                                    onclick="onCommandInputMode('left')">
+                                    <i class="bi bi-layout-sidebar-inset"></i> Left
+                                </button>
+                                <button type="button" class="btn" id="commandInputModeRight"
+                                    onclick="onCommandInputMode('right')">
+                                    <i class="bi bi-layout-sidebar-inset-reverse"></i> Right
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
+                        <label class="form-label">Actor/Status Window</label>
+                        <div class="form-row mb-4">
+                            <div class="btn-group">
+                                <button type="button" class="btn" id="statusOrientationRows"
+                                    onclick="onStatusWindowModeChange('rows')">
+                                    <i class="bi bi-layout-three-columns rotate-90"></i> Rows
+                                </button>
+                                <button type="button" class="btn" id="statusOrientationColumns"
+                                    onclick="onStatusWindowModeChange('columns')">
+                                    <i class="bi bi-layout-three-columns"></i> Columns
+                                </button>
+                                <button type="button" class="btn" id="statusOrientationSingleActor"
+                                    onclick="onStatusWindowModeChange('single actor')">
+                                    <i class="bi bi-file-person"></i> Single Actor
+                                </button>
+                                <button type="button" class="btn" id="statusOrientationNone"
+                                    onclick="onStatusWindowModeChange('none')">
+                                    <i class="bi bi-x-lg"></i> Don't show
+                                </button>
+                            </div>
+                        </div>
+                        <div id="visibleActorsBox">
+                            <label class="form-label">Visible Actors</label>
+                            <div class="d-flex align-items-baseline">
+                                <input type="number" class="form-control mb-4" placeholder="4" min="1" max="10"
+                                    style="width: 6rem" id="visibleActors"
+                                    onchange="onVisibleActorsChange(visibleActors.value)" />
+                                <p class="ms-3 me-3" id="visibleActorsWave">~</p>
+                                <input type="number" class="form-control mb-4" placeholder="4" min="1" max="10"
+                                    style="width: 6rem" id="visibleActorsMax"
+                                    onchange="onVisibleActorsMaxChange(visibleActorsMax.value)" />
+                            </div>
+                            <label class="form-check form-switch mb-4">
+                                <input class="form-check-input" type="checkbox" id="autoAdjustVisibleActors"
+                                    onchange="onAutoAdjustVisibleActorsChange(autoAdjustVisibleActors.checked)" />
+                                <span class="form-check-label">Always adjust to current Party Size?</span>
+                            </label>
+                        </div>
+                        <hr />
+                        <label class="form-label">Menu Window Position</label>
+                        <p class="info mb-4" id="centerOnlyHint">
+                            Only "Center" is supported when Status Window is not shown.
+                        </p>
+                        <div class="form-row mb-4" id="commandOrientationBox">
+                            <div class="btn-group">
+                                <button type="button" class="btn" id="commandOrientationSide"
+                                    onclick="onCommandOrientation('side')">
+                                    <i class="bi bi-layout-sidebar-inset-reverse"></i> Side
+                                </button>
+                                <button type="button" class="btn" id="commandOrientationTop"
+                                    onclick="onCommandOrientation('top')">
+                                    <i class="bi bi-layout-sidebar-inset rotate-90"></i> Top
+                                </button>
+                                <button type="button" class="btn" id="commandOrientationBottom"
+                                    onclick="onCommandOrientation('bottom')">
+                                    <i class="bi bi-layout-sidebar-inset-reverse rotate-90"></i>
+                                    Bottom
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col" id="commandWidthBox">
+                                <label class="form-label">Width</label>
+                                <input class="form-control" type="number" min="1" max="10000" placeholder="240"
+                                    style="width: 6rem" id="commandWidth"
+                                    onblur="onCommandWidthChange(commandWidth.value)" />
+                            </div>
+                            <div class="col" id="commandNumberOfColumnsBox">
+                                <label class="form-label">Columns</label>
+                                <input class="form-control" type="number" placeholder="4" min="1" max="10"
+                                    style="width: 6rem" id="commandNumberOfColumns"
+                                    onblur="onCommandNumberOfColumnsChange(commandNumberOfColumns.value)" />
+                            </div>
+                            <div class="col" id="commandNumberOfLinesBox">
+                                <label class="form-label">Lines</label>
+                                <input class="form-control" type="number" placeholder="2" min="1" max="10"
+                                    style="width: 6rem" id="commandNumberOfLines"
+                                    onblur="onCommandNumberOfLinesChange(commandNumberOfLines.value)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#layoutManual">
+                        Layout 2
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="layoutManual">
+                        <label class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" id="shouldOverrideCommandRectangle"
+                                onchange="onOverrideCommandRectangleChange(shouldOverrideCommandRectangle.checked)" />
+                            <span class="form-check-label">Override Values for Command Window?</span>
+                        </label>
+                        <div class="row mb-4" id="commandRectangleByValues">
+                            <div class="input-group col">
+                                <span class="input-group-text">x</span>
+                                <input type="number" class="form-control" id="commandRectangle_x" placeholder="0"
+                                    onblur="onRectangleValueChange('command', 'x', commandRectangle_x.value)" />
+                            </div>
+                            <div class="input-group col">
+                                <span class="input-group-text">y</span>
+                                <input type="number" class="form-control" id="commandRectangle_y" placeholder="0"
+                                    onblur="onRectangleValueChange('command', 'y', commandRectangle_y.value)" />
+                            </div>
+                            <div class="input-group col">
+                                <span class="input-group-text"><i class="bi bi-arrows"></i></span>
+                                <input type="number" class="form-control" id="commandRectangle_width"
+                                    onblur="onRectangleValueChange('command', 'width', commandRectangle_width.value)" />
+                            </div>
+                            <div class="input-group col">
+                                <span class="input-group-text"><i class="bi bi-arrows-vertical"></i></span>
+                                <input type="number" class="form-control" id="commandRectangle_height"
+                                    onblur="onRectangleValueChange('command', 'height', commandRectangle_height.value)" />
+                            </div>
+                        </div>
+                        <label class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" id="shouldOverrideStatusRectangle"
+                                onchange="onOverrideStatusRectangleChange(shouldOverrideStatusRectangle.checked)" />
+                            <span class="form-check-label">Override Values for Status Window?</span>
+                        </label>
+                        <div class="row mb-4" id="statusRectangleByValues">
+                            <div class="input-group col">
+                                <span class="input-group-text">x</span>
+                                <input type="number" class="form-control" id="statusRectangle_x" placeholder="0"
+                                    onblur="onRectangleValueChange('status', 'x', statusRectangle_x.value)" />
+                            </div>
+                            <div class="input-group col">
+                                <span class="input-group-text">y</span>
+                                <input type="number" class="form-control" id="statusRectangle_y" placeholder="0"
+                                    onblur="onRectangleValueChange('status', 'y', statusRectangle_y.value)" />
+                            </div>
+                            <div class="input-group col">
+                                <span class="input-group-text"><i class="bi bi-arrows"></i></span>
+                                <input type="number" class="form-control" id="statusRectangle_width"
+                                    onblur="onRectangleValueChange('status', 'width', statusRectangle_width.value)" />
+                            </div>
+                            <div class="input-group col">
+                                <span class="input-group-text"><i class="bi bi-arrows-vertical"></i></span>
+                                <input type="number" class="form-control" id="statusRectangle_height"
+                                    onblur="onRectangleValueChange('status', 'height', statusRectangle_height.value)" />
+                            </div>
+                        </div>
+                        <label class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" id="shouldOverrideGoldRectangle"
+                                onchange="onOverrideGoldRectangleChange(shouldOverrideGoldRectangle.checked)" />
+                            <span class="form-check-label">Override Values for Gold/Game Info Window?</span>
+                        </label>
+                        <div class="row" id="goldRectangleByValues">
+                            <div class="input-group col">
+                                <span class="input-group-text">x</span>
+                                <input type="number" class="form-control" id="goldRectangle_x" placeholder="0"
+                                    onblur="onRectangleValueChange('gold', 'x', goldRectangle_x.value)" />
+                            </div>
+                            <div class="input-group col">
+                                <span class="input-group-text">y</span>
+                                <input type="number" class="form-control" id="goldRectangle_y" placeholder="0"
+                                    onblur="onRectangleValueChange('gold', 'y', goldRectangle_y.value)" />
+                            </div>
+                            <div class="input-group col">
+                                <span class="input-group-text"><i class="bi bi-arrows"></i></span>
+                                <input type="number" class="form-control" id="goldRectangle_width"
+                                    onblur="onRectangleValueChange('gold', 'width', goldRectangle_width.value)" />
+                            </div>
+                            <div class="input-group col">
+                                <span class="input-group-text"><i class="bi bi-arrows-vertical"></i></span>
+                                <input type="number" class="form-control" id="goldRectangle_height"
+                                    onblur="onRectangleValueChange('gold', 'height', goldRectangle_height.value)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#windows">
+                        Windows General
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="windows">
+                        <p class="info">
+                            <span class="bi bi-info-square me-1"></span>
+                            Settings will affect all Windows across all Scenes.
+                        </p>
+                        <hr />
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 200px">
+                                <i class="bi bi-transparency me-2"></i>Opacity
+                            </span>
+                            <input class="form-control" style="flex-grow: 0; flex-basis: 5rem" type="number"
+                                id="windowOpacity" onblur="onWindowOpacityChange(windowOpacity.value)"
+                                placeholder="192" />
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 200px">
+                                <i class="bi bi-fonts me-2"></i>Line Height
+                            </span>
+                            <input class="form-control" style="flex-grow: 0; flex-basis: 5rem;" type="number"
+                                id="windowLineHeight" onblur="onWindowLineHeightChange(windowLineHeight.value)"
+                                placeholder="36" />
+                            <span class="input-group-text">px</span>
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 200px">
+                                <i class="bi bi-arrows-vertical me-2"></i>
+                                Item Height
+                            </span>
+                            <input class="form-control" style="flex-grow: 0; flex-basis: 5rem" type="number"
+                                id="windowItemHeight" onblur="onWindowItemHeightChange(windowItemHeight.value)"
+                                placeholder="36" />
+                            <span class="input-group-text">px</span>
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 200px">
+                                <i class="bi bi-square me-2"></i>
+                                Item Padding
+                            </span>
+                            <input class="form-control" style="flex-grow: 0; flex-basis: 5rem" type="number"
+                                id="windowItemPadding" onblur="onWindowItemPaddingChange(windowItemPadding.value)"
+                                placeholder="8" />
+                            <span class="input-group-text">px</span>
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 200px">
+                                <i class="bi bi-arrows-vertical me-2"></i>
+                                Item Spacing
+                            </span>
+                            <input class="form-control" style="flex-grow: 0; flex-basis: 5rem" type="number"
+                                id="windowRowSpacing" onblur="onWindowRowSpacingChange(windowRowSpacing.value)"
+                                placeholder="4" />
+                            <span class="input-group-text">px</span>
+                        </div>
+                        <div class="input-group mb-4">
+                            <span class="input-group-text" style="width: 200px">
+                                <i class="bi bi-arrows me-2"></i>
+                                Item Spacing
+                            </span>
+                            <input class="form-control" style="flex-grow: 0; flex-basis: 5rem" type="number"
+                                id="windowColumnSpacing" onblur="onWindowColumnSpacingChange(windowColumnSpacing.value)"
+                                placeholder="8" />
+                            <span class="input-group-text">px</span>
+                        </div>
+                        <label class="form-label">Cursor Style</label>
+                        <select class="form-select mb-4" id="cursorStyle"
+                            onchange="onCursorStyleChange(cursorStyle.value)">
+                            <option value="default">Default</option>
+                            <option value="image">Custom Image</option>
+                        </select>
+                        <div id="cursorStyleBox">
+                            <input class="form-control" type="file" id="cursorBackgroundFile" accept="image/png"
+                                onchange="onCursorBackgroundFileChange(cursorBackgroundFile.value)" />
+                            <p class="info mb-4">File must be located in game/img/system</p>
+                            <label class="form-label">Adjust</label>
+                            <div class="d-flex mb-4">
+                                <div>
+                                    <div class="input-group me-2">
+                                        <span class="input-group-text">x</span>
+                                        <input class="input-group-text" type="number" style="width: 5rem"
+                                            id="cursorAdjustX" onblur="onCursorAdjustXChange(cursorAdjustX.value)" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="input-group">
+                                        <span class="input-group-text">y</span>
+                                        <input class="input-group-text" type="number" style="width: 5rem"
+                                            id="cursorAdjustY" onblur="onCursorAdjustYChange(cursorAdjustY.value)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" id="blinkCursor"
+                                onchange="onBlinkCursorChange(blinkCursor.checked)" />
+                            <span class="form-check-label">Blink?</span>
+                        </label>
+                        <hr class="mt-4 mb-4" />
+                        <label class="form-label mb-2">When Command is disabled</label>
+                        <p></p>
+                        <label class="form-label">Text Opacity</label>
+                        <input class="form-control mb-4" type="number" style="width: 6rem" id="disabledTextOpacity"
+                            onblur="onDisabledTextOpacityChange(disabledTextOpacity.value)" />
+                        <div class="d-flex align-items-end">
+                            <div class="me-2">
+                                <label class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="overrideDisabledTextColor"
+                                        onchange="onOverrideDisabledTextColorChange(overrideDisabledTextColor.checked)" />
+                                    <span class="form-check-label">Change Text Color?</span>
+                                </label>
+                            </div>
+                            <input type="color" class="input-group-text form-control-color" id="disabledTextColor"
+                                onchange="onDisabledTextColorChange(disabledTextColor.value)" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#scene">
+                        Menu Scene General
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="scene">
+                        <label class="form-label">Background</label>
+                        <select class="form-select mb-4" id="sceneBackgroundType"
+                            onchange="onSceneBackgroundTypeChange(sceneBackgroundType.value)">
+                            <option value="mapSprite">Map Sprite</option>
+                            <option value="image">Image</option>
+                            <option value="none">None</option>
+                        </select>
+                        <div id="sceneBackgroundEffectsBox">
+                            <label class="form-label">Effects</label>
+                            <select class="form-select" id="sceneBackgroundEffects"
+                                onchange="onSceneBackgroundEffectsChange(sceneBackgroundEffects.value)">
+                                <option value="blurred">Blurred</option>
+                                <option value="blackWhite">Black White</option>
+                                <option value="sepia">Sepia</option>
+                                <option value="none">None</option>
+                            </select>
+                        </div>
+                        <div id="sceneBackgroundFileBox">
+                            <input class="form-control" type="file" id="sceneBackgroundFile" accept="image/png"
+                                onchange="onSceneBackgroundFileChange(sceneBackgroundFile.value)" />
+                            <p class="info">
+                                File must be located in your game directory/img
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#actors">
+                        Actors/Party General
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="actors">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 200px">
+                                <i class="bi bi-transparency me-2"></i>Opacity
+                            </span>
+                            <input class="form-control" type="number" id="statusOpacity"
+                                style="flex-grow: 0; flex-basis: 5rem"
+                                onblur="onStatusOpacityChange(statusOpacity.value)" />
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 200px">
+                                <i class="bi bi-arrows-vertical me-2"></i>
+                                Item Spacing
+                            </span>
+                            <input class="form-control" type="number" id="statusRowSpacing"
+                                style="flex-grow: 0; flex-basis: 5rem"
+                                onblur="onStatusRowSpacingChange(statusRowSpacing.value)" />
+                            <span class="input-group-text">px</span>
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 200px">
+                                <i class="bi bi-arrows me-2"></i>
+                                Item Spacing
+                            </span>
+                            <input class="form-control" type="number" id="statusColumnSpacing"
+                                style="flex-grow: 0; flex-basis: 5rem"
+                                onblur="onStatusColumnSpacingChange(statusColumnSpacing.value)" />
+                            <span class="input-group-text">px</span>
+                        </div>
+                        <hr />
+                        <div class="row align-items-start mb-4">
+                            <div class="col">
+                                <label class="form-check form-switch mb-4" id="shouldOverrideStatusWindowBox">
+                                    <input class="form-check-input" type="checkbox" id="shouldOverrideStatusWindow"
+                                        onchange="onOverrideStatusWindowChange(shouldOverrideStatusWindow.checked)" />
+                                    <span class="form-check-label">Individual Window File?</span>
+                                </label>
+                            </div>
+                            <div class="col">
+                                <div id="statusWindowFileBox">
+                                    <input class="form-control" type="file" id="statusWindowFile" accept="image/png"
+                                        onchange="onStatusWindowFileChange(statusWindowFile.value)" />
+                                    <p class="info mb-0">
+                                        File must be located in your game/img/system
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-end mb-4">
+                            <div class="col">
+                                <label class="form-label">Window Background</label>
+                                <select class="form-select" id="statusBackgroundType"
+                                    onchange="onStatusBackgroundTypeChange(statusBackgroundType.value)">
+                                    <option value="window">Window</option>
+                                    <option value="dimmed">Dimmed</option>
+                                    <option value="image">Image</option>
+                                    <option value="none">None</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <div id="statusBackgroundFileBox">
+                                    <input class="form-control" type="file" id="statusBackgroundFile" accept="image/png"
+                                        onchange="onStatusBackgroundFileChange(statusBackgroundFile.value)" />
+                                    <p class="info mb-0">
+                                        File must be located in your game directory/img
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-end mb-4">
+                            <div class="col">
+                                <label class="form-label">Item Background</label>
+                                <select class="form-select" id="statusItemBackgroundType"
+                                    onchange="onStatusItemBackgroundTypeChange(statusItemBackgroundType.value)">
+                                    <option value="dimmed">Dimmed</option>
+                                    <option value="image">Image</option>
+                                    <option value="none">None</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <div id="statusItemBackgroundFileBox">
+                                    <input class="form-control" type="file" id="statusItemBackgroundFile"
+                                        accept="image/png"
+                                        onchange="onStatusItemBackgroundFileChange(statusItemBackgroundFile.value)" />
+                                    <p class="info mb-0">
+                                        File must be located in your game directory/img
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-end mb-4">
+                            <div class="col">
+                                <label class="form-label">Cursor Background</label>
+                                <select class="form-select" id="statusCursorBackgroundType"
+                                    onchange="onStatusCursorBackgroundTypeChange(statusCursorBackgroundType.value)">
+                                    <option value="default">Default</option>
+                                    <option value="image">Image</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <div id="statusCursorBackgroundFileBox">
+                                    <input class="form-control" type="file" id="statusCursorBackgroundFile"
+                                        accept="image/png"
+                                        onchange="onStatusCursorBackgroundFileChange(statusCursorBackgroundFile.value)" />
+                                    <p class="info mb-0">
+                                        File must be located in your game directory/img
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-end mb-4" id="statusBlinkCursorBox">
+                            <div class="col">
+                                <label class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="statusBlinkCursor"
+                                        onchange="onStatusBlinkCursorChange(statusBlinkCursor.checked)" />
+                                    <span class="form-check-label">Blink?</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row align-items-end mb-4">
+                            <div class="col">
+                                <label class="form-label">Pending Background (Formation Change)</label>
+                                <select class="form-select" id="statusPendingBackgroundType"
+                                    onchange="onStatusPendingBackgroundTypeChange(statusPendingBackgroundType.value)">
+                                    <option value="default">Default</option>
+                                    <option value="image">Image</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <div id="statusPendingBackgroundFileBox">
+                                    <input class="form-control" type="file" id="statusPendingBackgroundFile"
+                                        accept="image/png"
+                                        onchange="onStatusPendingBackgroundFileChange(statusPendingBackgroundFile.value)" />
+                                    <p class="info mb-0">
+                                        File must be located in your game directory/img
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#actorImageCollapsible">
+                        Actor Portrait
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="actorImageCollapsible">
+                        <label class="form-label">Image</label>
+                        <select class="form-select mb-4" id="statusRenderType"
+                            onchange="onStatusRenderTypeChange(statusRenderType.value)">
+                            <option value="face">Face</option>
+                            <option value="battler">SV Battler</option>
+                            <option value="mapSprite">Map Sprite</option>
+                            <option value="portrait">Custom Image</option>
+                            <option value="none">None</option>
+                        </select>
+                        <div class="mb-4" id="portraitNotetagHint">
+                            <p class="info">
+                                <i class="bi bi-info-square me-1"></i>
+                                Use the Notetag &lt;Menu Portrait: Filename&gt; on Actors to
+                                define custom Image.
+                            </p>
+                            <p class="info">
+                                <i>Example:</i> &lt;Menu Portrait: Actor1_1&gt;
+                            </p>
+                        </div>
+                        <div id="actorImageBox">
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <label class="form-label">Horizontal Align</label>
+                                    <div class="form-row">
+                                        <div class="btn-group btn-group-lg">
+                                            <button type="button" class="btn" id="actorImageHorzAlignLeft"
+                                                onclick="onActorImageHorzAlign('left')">
+                                                <i class="bi bi-align-start"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="actorImageHorzAlignCenter"
+                                                onclick="onActorImageHorzAlign('center')">
+                                                <i class="bi bi-align-center"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="actorImageHorzAlignRight"
+                                                onclick="onActorImageHorzAlign('right')">
+                                                <i class="bi bi-align-end"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label class="form-label">Vertical Align</label>
+                                    <div class="form-row">
+                                        <div class="btn-group btn-group-lg">
+                                            <button type="button" class="btn" id="actorImageVertAlignTop"
+                                                onclick="onActorImageVertAlign('top')">
+                                                <i class="bi bi-align-top"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="actorImageVertAlignMiddle"
+                                                onclick="onActorImageVertAlign('middle')">
+                                                <i class="bi bi-align-middle"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="actorImageVertAlignBottom"
+                                                onclick="onActorImageVertAlign('bottom')">
+                                                <i class="bi bi-align-bottom"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="form-label">Offset</label>
+                            <div class="form-group row mb-4">
+                                <div class="input-group col">
+                                    <span class="input-group-text">x</span>
+                                    <input type="number" class="form-control" id="actorImageOffsetX"
+                                        onblur="onActorImageOffsetXChange(actorImageOffsetX.value)" />
+                                    <span class="input-group-text">px</span>
+                                </div>
+                                <div class="input-group col">
+                                    <span class="input-group-text">y</span>
+                                    <input type="number" class="form-control" id="actorImageOffsetY"
+                                        onblur="onActorImageOffsetYChange(actorImageOffsetY.value)" />
+                                    <span class="input-group-text">px</span>
+                                </div>
+                            </div>
+                            <label class="form-label">Crop</label>
+                            <div class="form-group row mb-4">
+                                <div class="input-group col">
+                                    <span class="input-group-text"><i class="bi bi-arrows"></i></span>
+                                    <input type="number" class="form-control" id="actorImageCropX"
+                                        onblur="onActorImageCropXChange(actorImageCropX.value)" />
+                                    <span class="input-group-text">px</span>
+                                </div>
+                                <div class="input-group col">
+                                    <span class="input-group-text"><i class="bi bi-arrows-vertical"></i></span>
+                                    <input type="number" class="form-control" id="actorImageCropY"
+                                        onblur="onActorImageCropYChange(actorImageCropY.value)" />
+                                    <span class="input-group-text">px</span>
+                                </div>
+                            </div>
+                            <label class="form-label">Scale</label>
+                            <div class="form-group row mb-4">
+                                <div class="input-group col">
+                                    <span class="input-group-text"><i class="bi bi-arrows"></i></span>
+                                    <input type="number" class="form-control" id="actorImageScaleX"
+                                        onblur="onActorImageScaleXChange(actorImageScaleX.value)" />
+                                    <span class="input-group-text">%</span>
+                                </div>
+                                <div class="input-group col">
+                                    <span class="input-group-text"><i class="bi bi-arrows-vertical"></i></span>
+                                    <input type="number" class="form-control" id="actorImageScaleY"
+                                        onblur="onActorImageScaleYChange(actorImageScaleY.value)" />
+                                    <span class="input-group-text">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#actorShadowBoxCollapsible">
+                        Actor Shadow Box
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="actorShadowBoxCollapsible">
+                        <label class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" id="showShadowBox"
+                                onchange="onShowShadowBoxChange(showShadowBox.checked)" />
+                            <span class="form-check-label">Show?</span>
+                        </label>
+                        <div id="actorShadowBoxBox">
+                            <div class="row">
+                                <label class="col form-label">Position</label>
+                                <div class="col"></div>
+                                <label class="col form-label">Width & Height</label>
+                                <div class="col"></div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="input-group col">
+                                    <span class="input-group-text">x</span>
+                                    <input type="number" class="form-control" id="shadowBoxX" placeholder="0"
+                                        onblur="onShadowBoxXChange(shadowBoxX.value)" />
+                                </div>
+                                <div class="input-group col">
+                                    <span class="input-group-text">y</span>
+                                    <input type="number" class="form-control" id="shadowBoxY" placeholder="0"
+                                        onblur="onShadowBoxYChange(shadowBoxY.value)" />
+                                </div>
+                                <div class="input-group col">
+                                    <span class="input-group-text"><i class="bi bi-arrows"></i></span>
+                                    <input type="number" class="form-control" id="shadowBoxWidth"
+                                        onblur="onShadowBoxWidthChange(shadowBoxWidth.value)" />
+                                </div>
+                                <div class="input-group col">
+                                    <span class="input-group-text"><i class="bi bi-arrows-vertical"></i></span>
+                                    <input type="number" class="form-control" id="shadowBoxHeight"
+                                        onblur="onShadowBoxHeightChange(shadowBoxHeight.value)" />
+                                </div>
+                            </div>
+                            <div class="input-group mb-2">
+                                <span class="input-group-text"><i class="bi bi-paint-bucket me-1"></i>Color</span>
+                                <input type="color" class="input-group-text form-control-color me-2" id="shadowBoxColor"
+                                    onchange="onShadowBoxColorChange(shadowBoxColor.value)" />
+                            </div>
+                            <div class="input-group mb-4">
+                                <span class="input-group-text"><i class="bi bi-transparency me-1"></i>Opacity</span>
+                                <input type="number" class="form-control" min="0" max="255"
+                                    style="flex-grow: 0; flex-basis: 5rem" id="shadowBoxOpacity"
+                                    onblur="onShadowBoxOpacityChange(shadowBoxOpacity.value)" />
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label class="form-label">Gradient Direction</label>
+                                    <div class="d-flex">
+                                        <button class="btn me-2" id="shadowBoxGradientTop"
+                                            onclick="onShadowBoxGradientChange('top')">
+                                            <span class="bi bi-chevron-up"></span>
+                                        </button>
+                                        <button class="btn me-2" id="shadowBoxGradientBottom"
+                                            onclick="onShadowBoxGradientChange('bottom')">
+                                            <span class="bi bi-chevron-down"></span>
+                                        </button>
+                                        <button class="btn me-2" id="shadowBoxGradientLeft"
+                                            onclick="onShadowBoxGradientChange('left')">
+                                            <span class="bi bi-chevron-left"></span>
+                                        </button>
+                                        <button class="btn me-2" id="shadowBoxGradientRight"
+                                            onclick="onShadowBoxGradientChange('right')">
+                                            <span class="bi bi-chevron-right"></span>
+                                        </button>
+                                        <button class="btn me-2" id="shadowBoxGradientNone"
+                                            onclick="onShadowBoxGradientChange('none')">
+                                            <span class="bi bi-x-lg"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col" id="shadowBoxGradientPowerBox">
+                                    <label class="form-label">Gradient Power</label>
+                                    <div class="input-group">
+                                        <input class="form-control" type="number" id="shadowBoxGradientPower"
+                                            placeholder="10" min="0" max="100"
+                                            onblur="onShadowBoxGradientPowerChange(shadowBoxGradientPower.value)" />
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#actorNamesCollapsible">
+                        Actor Name & Class
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="actorNamesCollapsible">
+                        <label class="form-label">Name</label>
+                        <label class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" id="shouldShowName"
+                                onchange="onShowNameChange(shouldShowName.checked)" />
+                            <span class="form-check-label">Show?</span>
+                        </label>
+                        <div id="actorNameBox">
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <label class="form-label">Horizontal Align</label>
+                                    <div class="form-row">
+                                        <div class="btn-group btn-group-lg">
+                                            <button type="button" class="btn" id="nameHorzAlignLeft"
+                                                onclick="onNameHorzAlign('left')">
+                                                <i class="bi bi-align-start"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="nameHorzAlignCenter"
+                                                onclick="onNameHorzAlign('center')">
+                                                <i class="bi bi-align-center"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="nameHorzAlignRight"
+                                                onclick="onNameHorzAlign('right')">
+                                                <i class="bi bi-align-end"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label class="form-label">Vertical Align</label>
+                                    <div class="form-row">
+                                        <div class="btn-group btn-group-lg">
+                                            <button type="button" class="btn" id="nameVertAlignTop"
+                                                onclick="onNameVertAlign('top')">
+                                                <i class="bi bi-align-top"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="nameVertAlignMiddle"
+                                                onclick="onNameVertAlign('middle')">
+                                                <i class="bi bi-align-middle"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="nameVertAlignBottom"
+                                                onclick="onNameVertAlign('bottom')">
+                                                <i class="bi bi-align-bottom"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-4">
+                                <div class="input-group col">
+                                    <span class="input-group-text">x</span>
+                                    <input type="number" class="form-control" id="nameX"
+                                        onblur="onNameXChange(nameX.value)" />
+                                </div>
+                                <div class="input-group col">
+                                    <span class="input-group-text">y</span>
+                                    <input type="number" class="form-control" id="nameY"
+                                        onblur="onNameYChange(nameY.value)" />
+                                </div>
+                                <div class="input-group col">
+                                    <span class="input-group-text"><i class="bi bi-arrows"></i></span>
+                                    <input type="number" class="form-control" id="nameWidth"
+                                        onblur="onNameWidthChange(nameWidth.value)" />
+                                </div>
+                                <div class="col"></div>
+                            </div>
+                            <div class="d-flex align-items-end mb-4">
+                                <div class="d-flex flex-column me-4">
+                                    <label class="form-label">Text Align</label>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn" id="nameTextAlignLeft"
+                                            onclick="onNameTextAlignChange('left')">
+                                            <i class="bi bi-text-left"></i> Left
+                                        </button>
+                                        <button type="button" class="btn" id="nameTextAlignCenter"
+                                            onclick="onNameTextAlignChange('center')">
+                                            <i class="bi bi-text-center"></i> Center
+                                        </button>
+                                        <button type="button" class="btn" id="nameTextAlignRight"
+                                            onclick="onNameTextAlignChange('right')">
+                                            <i class="bi bi-text-right"></i> Right
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column me-4">
+                                    <label class="form-label">Font Size</label>
+                                    <div class="input-group">
+                                        <button type="button" class="btn btn-outline-primary input-group-text"
+                                            onclick="onNameFontSizeChange(-1)">
+                                            A<sup><i class="bi bi-chevron-down"></i></sup>
+                                        </button>
+                                        <span class="input-group-text" id="nameFontSize"
+                                            style="width: 4rem; justify-content: center"></span>
+                                        <button type="button" class="btn btn-outline-primary input-group-text"
+                                            onclick="onNameFontSizeChange(1)">
+                                            A<sup><i class="bi bi-chevron-up"></i></sup>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <label class="form-label">Text Color</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="nameTextColorSpan" style="
+                        font-size: larger;
+                        text-decoration: underline;
+                        text-decoration-thickness: 4px;
+                      ">
+                                            A
+                                        </span>
+                                        <select class="input-group-text form-select my-color-picker" style="width: 3rem"
+                                            id="nameTextColor"
+                                            onchange="onNameTextColorChange(nameTextColor.value)"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="form-label">Background</label>
+                            <select class="form-select" id="nameBackgroundType"
+                                onchange="onNameBackgroundTypeChange(nameBackgroundType.value)">
+                                <option value="gradient" selected>Gradient</option>
+                                <option value="none">None</option>
+                            </select>
+                        </div>
+                        <hr />
+                        <label class="form-label">Class</label>
+                        <label class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" id="shouldShowClass"
+                                onchange="onShowClassChange(shouldShowClass.checked)" />
+                            <span class="form-check-label">Show?</span>
+                        </label>
+                        <div id="actorClassBox">
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <label class="form-label">Horizontal Align</label>
+                                    <div class="form-row">
+                                        <div class="btn-group btn-group-lg">
+                                            <button type="button" class="btn" id="classHorzAlignLeft"
+                                                onclick="onClassHorzAlign('left')">
+                                                <i class="bi bi-align-start"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="classHorzAlignCenter"
+                                                onclick="onClassHorzAlign('center')">
+                                                <i class="bi bi-align-center"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="classHorzAlignRight"
+                                                onclick="onClassHorzAlign('right')">
+                                                <i class="bi bi-align-end"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label class="form-label">Vertical Align</label>
+                                    <div class="form-row">
+                                        <div class="btn-group btn-group-lg">
+                                            <button type="button" class="btn" id="classVertAlignTop"
+                                                onclick="onClassVertAlign('top')">
+                                                <i class="bi bi-align-top"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="classVertAlignMiddle"
+                                                onclick="onClassVertAlign('middle')">
+                                                <i class="bi bi-align-middle"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="classVertAlignBottom"
+                                                onclick="onClassVertAlign('bottom')">
+                                                <i class="bi bi-align-bottom"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-4">
+                                <div class="input-group col">
+                                    <span class="input-group-text">x</span>
+                                    <input type="number" class="form-control" id="classX"
+                                        onblur="onClassXChange(classX.value)" />
+                                </div>
+                                <div class="input-group col">
+                                    <span class="input-group-text">y</span>
+                                    <input type="number" class="form-control" id="classY"
+                                        onblur="onClassYChange(classY.value)" />
+                                </div>
+                                <div class="input-group col">
+                                    <span class="input-group-text"><i class="bi bi-arrows"></i></span>
+                                    <input type="number" class="form-control" id="classWidth"
+                                        onblur="onClassWidthChange(classWidth.value)" />
+                                </div>
+                                <div class="col"></div>
+                            </div>
+                            <div class="d-flex align-items-end mb-4">
+                                <div class="d-flex flex-column me-4">
+                                    <label class="form-label">Text Align</label>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn" id="classTextAlignLeft"
+                                            onclick="onClassTextAlignChange('left')">
+                                            <i class="bi bi-text-left"></i> Left
+                                        </button>
+                                        <button type="button" class="btn" id="classTextAlignCenter"
+                                            onclick="onClassTextAlignChange('center')">
+                                            <i class="bi bi-text-center"></i> Center
+                                        </button>
+                                        <button type="button" class="btn" id="classTextAlignRight"
+                                            onclick="onClassTextAlignChange('right')">
+                                            <i class="bi bi-text-right"></i> Right
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column me-4">
+                                    <label class="form-label">Font Size</label>
+                                    <div class="input-group">
+                                        <button type="button" class="btn btn-outline-primary input-group-text"
+                                            onclick="onClassFontSizeChange(-1)">
+                                            A<sup><i class="bi bi-chevron-down"></i></sup>
+                                        </button>
+                                        <span class="input-group-text" id="classFontSize"
+                                            style="width: 4rem; justify-content: center"></span>
+                                        <button type="button" class="btn btn-outline-primary input-group-text"
+                                            onclick="onClassFontSizeChange(1)">
+                                            A<sup><i class="bi bi-chevron-up"></i></sup>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <label class="form-label">Text Color</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="classTextColorSpan" style="
+                        font-size: larger;
+                        text-decoration: underline;
+                        text-decoration-thickness: 4px;
+                      ">
+                                            A
+                                        </span>
+                                        <select class="input-group-text form-select my-color-picker" style="width: 3rem"
+                                            id="classTextColor"
+                                            onchange="onClassTextColorChange(classTextColor.value)"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#actorLevelCollapsible">
+                        Actor Level & Exp
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="actorLevelCollapsible">
+                        <label class="form-label">Mode</label>
+                        <select class="form-select mb-4" id="showLevelMode"
+                            onchange="onShowLevelModeChange(showLevelMode.value)">
+                            <option value="text">Text</option>
+                            <option value="gauge">Gauge</option>
+                            <option value="none">Don't show</option>
+                        </select>
+                        <div id="levelPositionBox">
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <label class="form-label">Horizontal Align</label>
+                                    <div class="form-row">
+                                        <div class="btn-group btn-group-lg">
+                                            <button type="button" class="btn" id="levelInfoHorzAlignLeft"
+                                                onclick="onLevelInfoHorzAlign('left')">
+                                                <i class="bi bi-align-start"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="levelInfoHorzAlignCenter"
+                                                onclick="onLevelInfoHorzAlign('center')">
+                                                <i class="bi bi-align-center"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="levelInfoHorzAlignRight"
+                                                onclick="onLevelInfoHorzAlign('right')">
+                                                <i class="bi bi-align-end"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label class="form-label">Vertical Align</label>
+                                    <div class="form-row">
+                                        <div class="btn-group btn-group-lg">
+                                            <button type="button" class="btn" id="levelInfoVertAlignTop"
+                                                onclick="onLevelInfoVertAlign('top')">
+                                                <i class="bi bi-align-top"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="levelInfoVertAlignMiddle"
+                                                onclick="onLevelInfoVertAlign('middle')">
+                                                <i class="bi bi-align-middle"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="levelInfoVertAlignBottom"
+                                                onclick="onLevelInfoVertAlign('bottom')">
+                                                <i class="bi bi-align-bottom"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-4">
+                                <div class="input-group col">
+                                    <span class="input-group-text">x</span>
+                                    <input type="number" class="form-control" id="levelX"
+                                        onblur="onLevelXChange(levelX.value)" />
+                                </div>
+                                <div class="input-group col">
+                                    <span class="input-group-text">y</span>
+                                    <input type="number" class="form-control" id="levelY"
+                                        onblur="onLevelYChange(levelY.value)" />
+                                </div>
+                                <div class="col input-group" id="levelGapBox">
+                                    <span class="input-group-text"><i class="bi bi-distribute-horizontal"></i></span>
+                                    <input type="number" class="form-control" id="levelGap"
+                                        onblur="onLevelGapChange(levelGap.value)" />
+                                </div>
+                                <div class="col" id="levelEmptyBox"></div>
+                                <div class="col input-group" id="expGaugeWidthBox">
+                                    <span class="input-group-text"><i class="bi bi-arrows"></i></span>
+                                    <input type="number" class="form-control" id="expGaugeWidth"
+                                        onblur="onExpGaugeWidthChange(expGaugeWidth.value)" />
+                                </div>
+                                <div class="col input-group" id="expGaugeHeightBox">
+                                    <span class="input-group-text"><i class="bi bi-arrows-vertical"></i></span>
+                                    <input type="number" class="form-control" id="expGaugeHeight"
+                                        onblur="onExpGaugeHeightChange(expGaugeHeight.value)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div id="levelAsTextBox">
+                            <div class="d-flex align-items-end mb-4">
+                                <div class="d-flex flex-column me-4">
+                                    <label class="form-label">Font Size</label>
+                                    <div class="input-group">
+                                        <button type="button" class="btn btn-outline-primary input-group-text"
+                                            onclick="onLevelFontSizeChange(-1)">
+                                            A<sup><i class="bi bi-chevron-down"></i></sup>
+                                        </button>
+                                        <span class="input-group-text" id="levelFontSize"
+                                            style="width: 4rem; justify-content: center"></span>
+                                        <button type="button" class="btn btn-outline-primary input-group-text"
+                                            onclick="onLevelFontSizeChange(1)">
+                                            A<sup><i class="bi bi-chevron-up"></i></sup>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column me-4">
+                                    <label class="form-label">Text Colors</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="levelTextColor1Span" style="
+                        font-size: larger;
+                        text-decoration: underline;
+                        text-decoration-thickness: 4px;
+                      ">
+                                            A
+                                        </span>
+                                        <select class="input-group-text form-select my-color-picker" style="width: 3rem"
+                                            id="levelTextColor1"
+                                            onchange="onLevelTextColor1Change(levelTextColor1.value)"></select>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column me-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="levelTextColor2Span" style="
+                        font-size: larger;
+                        text-decoration: underline;
+                        text-decoration-thickness: 4px;
+                      ">
+                                            A
+                                        </span>
+                                        <select class="input-group-text form-select my-color-picker" style="width: 3rem"
+                                            id="levelTextColor2"
+                                            onchange="onLevelTextColor2Change(levelTextColor2.value)"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#actorStatusCollapsible">
+                        Actor HP, MP, TP
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="actorStatusCollapsible">
+                        <label class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" id="showHp" checked
+                                onchange="onShowHpChange(showHp.checked)" />
+                            <span class="form-check-label">Show?</span>
+                        </label>
+                        <div id="actorHpBox">
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <label class="form-label">Horizontal Align</label>
+                                    <div class="form-row">
+                                        <div class="btn-group btn-group-lg">
+                                            <button type="button" class="btn" id="hpGaugeHorzAlignLeft"
+                                                onclick="onHpGaugeHorzAlign('left')">
+                                                <i class="bi bi-align-start"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="hpGaugeHorzAlignCenter"
+                                                onclick="onHpGaugeHorzAlign('center')">
+                                                <i class="bi bi-align-center"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="hpGaugeHorzAlignRight"
+                                                onclick="onHpGaugeHorzAlign('right')">
+                                                <i class="bi bi-align-end"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label class="form-label">Vertical Align</label>
+                                    <div class="form-row">
+                                        <div class="btn-group btn-group-lg">
+                                            <button type="button" class="btn" id="hpGaugeVertAlignTop"
+                                                onclick="onHpGaugeVertAlign('top')">
+                                                <i class="bi bi-align-top"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="hpGaugeVertAlignMiddle"
+                                                onclick="onHpGaugeVertAlign('middle')">
+                                                <i class="bi bi-align-middle"></i>
+                                            </button>
+                                            <button type="button" class="btn" id="hpGaugeVertAlignBottom"
+                                                onclick="onHpGaugeVertAlign('bottom')">
+                                                <i class="bi bi-align-bottom"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <span class="input-group-text">x</span>
+                                        <input class="form-control" type="number" id="hpGaugeX"
+                                            onblur="onHpGaugeXChange(hpGaugeX.value)" />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <span class="input-group-text">y</span>
+                                        <input class="form-control" type="number" id="hpGaugeY"
+                                            onblur="onHpGaugeYChange(hpGaugeY.value)" />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-arrows"></i></span>
+                                        <input class="form-control" type="number" id="hpGaugeWidth" placeholder="200"
+                                            onblur="onHpGaugeWidthChange(hpGaugeWidth.value)" />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-arrows-vertical"></i></span>
+                                        <input class="form-control" type="number" id="hpGaugeHeight"
+                                            onblur="onHpGaugeHeightChange(hpGaugeHeight.value)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#actorStatusEffects">
+                        Actor Status Effects
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="actorStatusEffects">
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label class="form-label">Horizontal Align</label>
+                                <div class="form-row">
+                                    <div class="btn-group btn-group-lg">
+                                        <button type="button" class="btn" id="statusEffectsHorzAlignLeft"
+                                            onclick="onStatusEffectsHorzAlign('left')">
+                                            <i class="bi bi-align-start"></i>
+                                        </button>
+                                        <button type="button" class="btn" id="statusEffectsHorzAlignCenter"
+                                            onclick="onStatusEffectsHorzAlign('center')">
+                                            <i class="bi bi-align-center"></i>
+                                        </button>
+                                        <button type="button" class="btn" id="statusEffectsHorzAlignRight"
+                                            onclick="onStatusEffectsHorzAlign('right')">
+                                            <i class="bi bi-align-end"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Vertical Align</label>
+                                <div class="form-row">
+                                    <div class="btn-group btn-group-lg">
+                                        <button type="button" class="btn" id="statusEffectsVertAlignTop"
+                                            onclick="onStatusEffectsVertAlign('top')">
+                                            <i class="bi bi-align-top"></i>
+                                        </button>
+                                        <button type="button" class="btn" id="statusEffectsVertAlignMiddle"
+                                            onclick="onStatusEffectsVertAlign('middle')">
+                                            <i class="bi bi-align-middle"></i>
+                                        </button>
+                                        <button type="button" class="btn" id="statusEffectsVertAlignBottom"
+                                            onclick="onStatusEffectsVertAlign('bottom')">
+                                            <i class="bi bi-align-bottom"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text">x</span>
+                                    <input class="form-control" type="number" id="statusEffectsX"
+                                        onblur="onStatusEffectsXChange(statusEffectsX.value)" />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <span class="input-group-text">y</span>
+                                    <input class="form-control" type="number" id="statusEffectsY"
+                                        onblur="onStatusEffectsYChange(statusEffectsY.value)" />
+                                </div>
+                            </div>
+                        </div>
+                        <label class="form-label">Icon Limit</label>
+                        <input class="form-control" type="number" id="statusEffectsMaxIcons" min="1" placeholder="8"
+                            style="width: 100px" onblur="onStatusEffectsMaxIconsChange(statusEffectsMaxIcons.value)" />
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#gaugeColors">
+                        Gauge Colors
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="gaugeColors">
+                        <p class="info mb-4">
+                            <span class="bi bi-info-square me-1"></span>
+                            Gauges Colors affect all Gauges in your game across all Scenes.
+                        </p>
+                        <div class="d-flex mb-4">
+                            <button class="btn btn-outline-secondary me-2" onclick="onPreviewGaugeColor('regular')">
+                                <i class="bi bi-eye"></i> Preview Regular
+                            </button>
+                            <button class="btn btn-outline-secondary me-2" onclick="onPreviewGaugeColor('crisis')">
+                                <i class="bi bi-eye"></i> Preview Crisis
+                            </button>
+                            <button class="btn btn-outline-secondary me-2" onclick="onPreviewGaugeColor('dead')">
+                                <i class="bi bi-eye"></i> Preview Knockout
+                            </button>
+                            <button class="btn btn-outline-secondary me-2" onclick="onPreviewGaugeColor('maxed')">
+                                <i class="bi bi-eye"></i> Preview Level maxed out
+                            </button>
+                        </div>
+                        <label class="form-label">General</label>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label class="form-label">HP</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2" id="gaugeColorHp1"
+                                        onchange="onGaugeColorChange('Hp1', gaugeColorHp1.value)" />
+                                    <input type="color" class="form-control form-control-color me-2" id="gaugeColorHp2"
+                                        onchange="onGaugeColorChange('Hp2', gaugeColorHp2.value)" />
+                                    <button class="btn btn-outline-secondary" onclick="onResetGaugeColor('Hp')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">HP (Crisis)</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2"
+                                        id="gaugeColorHpCrisis1"
+                                        onchange="onGaugeColorChange('HpCrisis1', gaugeColorHpCrisis1.value)" />
+                                    <input type="color" class="form-control form-control-color me-2"
+                                        id="gaugeColorHpCrisis2"
+                                        onchange="onGaugeColorChange('HpCrisis2', gaugeColorHpCrisis2.value)" />
+                                    <button class="btn btn-outline-secondary" onclick="onResetGaugeColor('HpCrisis')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col"></div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label class="form-label">MP</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2" id="gaugeColorMp1"
+                                        onchange="onGaugeColorChange('Mp1', gaugeColorMp1.value)" />
+                                    <input type="color" class="form-control form-control-color me-2" id="gaugeColorMp2"
+                                        onchange="onGaugeColorChange('Mp2', gaugeColorMp2.value)" />
+                                    <button class="btn btn-outline-secondary" onclick="onResetGaugeColor('Mp')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">TP</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2" id="gaugeColorTp1"
+                                        onchange="onGaugeColorChange('Tp1', gaugeColorTp1.value)" />
+                                    <input type="color" class="form-control form-control-color me-2" id="gaugeColorTp2"
+                                        onchange="onGaugeColorChange('Tp2', gaugeColorTp2.value)" />
+                                    <button class="btn btn-outline-secondary" onclick="onResetGaugeColor('Tp')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">ATB</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2" id="gaugeColorAtb1"
+                                        onchange="onGaugeColorChange('Atb', gaugeColorAtb1.value)" />
+                                    <input type="color" class="form-control form-control-color me-2" id="gaugeColorAtb2"
+                                        onchange="onGaugeColorChange('Atb', gaugeColorAtb2.value)" />
+                                    <button class="btn btn-outline-secondary" onclick="onResetGaugeColor('Atb')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label class="form-label">Exp</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2" id="gaugeColorExp1"
+                                        onchange="onGaugeColorChange('Exp', gaugeColorExp1.value)" />
+                                    <input type="color" class="form-control form-control-color me-2" id="gaugeColorExp2"
+                                        onchange="onGaugeColorChange('Exp', gaugeColorExp2.value)" />
+                                    <button class="btn btn-outline-secondary" onclick="onResetGaugeColor('Exp')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Exp (maxed out)</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2"
+                                        id="gaugeColorExpMaxed1"
+                                        onchange="onGaugeColorChange('ExpMaxed', gaugeColorExpMaxed1.value)" />
+                                    <input type="color" class="form-control form-control-color me-2"
+                                        id="gaugeColorExpMaxed2"
+                                        onchange="onGaugeColorChange('ExpMaxed', gaugeColorExpMaxed2.value)" />
+                                    <button class="btn btn-outline-secondary" onclick="onResetGaugeColor('ExpMaxed')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col"></div>
+                        </div>
+                        <label class="form-label">Background</label>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label class="form-label">HP</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2"
+                                        id="gaugeBackgroundColorHp"
+                                        onchange="onGaugeBackgroundColorChange('Hp', gaugeBackgroundColorHp.value)" />
+                                    <button class="btn btn-outline-secondary"
+                                        onclick="onResetGaugeBackgroundColor('Hp')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">HP (Crisis)</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2"
+                                        id="gaugeBackgroundColorHpCrisis"
+                                        onchange="onGaugeBackgroundColorChange('HpCrisis', gaugeBackgroundColorHpCrisis.value)" />
+                                    <button class="btn btn-outline-secondary"
+                                        onclick="onResetGaugeBackgroundColor('HpCrisis')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">HP (Knockout)</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2"
+                                        id="gaugeBackgroundColorHpDead"
+                                        onchange="onGaugeBackgroundColorChange('HpDead', gaugeBackgroundColorHpDead.value)" />
+                                    <button class="btn btn-outline-secondary"
+                                        onclick="onResetGaugeBackgroundColor('HpDead')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <label class="form-label">MP</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2"
+                                        id="gaugeBackgroundColorMp"
+                                        onchange="onGaugeBackgroundColorChange('Mp', gaugeBackgroundColorMp.value)" />
+                                    <button class="btn btn-outline-secondary"
+                                        onclick="onResetGaugeBackgroundColor('Mp')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">TP</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2"
+                                        id="gaugeBackgroundColorTp"
+                                        onchange="onGaugeBackgroundColorChange('Tp', gaugeBackgroundColorTp.value)" />
+                                    <button class="btn btn-outline-secondary"
+                                        onclick="onResetGaugeBackgroundColor('Tp')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">ATB</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2"
+                                        id="gaugeBackgroundColorAtb"
+                                        onchange="onGaugeBackgroundColorChange('Atb', gaugeBackgroundColorAtb.value)" />
+                                    <button class="btn btn-outline-secondary"
+                                        onclick="onResetGaugeBackgroundColor('Atb')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">Exp</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2"
+                                        id="gaugeBackgroundColorExp"
+                                        onchange="onGaugeBackgroundColorChange('Exp', gaugeBackgroundColorExp.value)" />
+                                    <button class="btn btn-outline-secondary"
+                                        onclick="onResetGaugeBackgroundColor('Exp')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Exp (maxed out)</label>
+                                <div class="d-flex">
+                                    <input type="color" class="form-control form-control-color me-2"
+                                        id="gaugeBackgroundColorExpMaxed"
+                                        onchange="onGaugeBackgroundColorChange('ExpMaxed', gaugeBackgroundColorExpMaxed.value)" />
+                                    <button class="btn btn-outline-secondary"
+                                        onclick="onResetGaugeBackgroundColor('ExpMaxed')">
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#commandCommand">
+                        Command Window
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="commandCommand">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 200px">
+                                <i class="bi bi-transparency me-2"></i>Opacity
+                            </span>
+                            <input class="form-control" style="flex-grow: 0; flex-basis: 5rem" type="number"
+                                id="commandOpacity" onblur="onCommandOpacityChange(commandOpacity.value)" />
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 200px">
+                                <i class="bi bi-arrows-vertical me-2"></i>
+                                Item Height
+                            </span>
+                            <input class="form-control" style="flex-grow: 0; flex-basis: 5rem" type="number"
+                                id="commandItemHeight" onblur="onCommandItemHeightChange(commandItemHeight.value)" />
+                            <span class="input-group-text">px</span>
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 200px">
+                                <i class="bi bi-arrows-vertical me-2"></i>
+                                Item Spacing
+                            </span>
+                            <input class="form-control" style="flex-grow: 0; flex-basis: 5rem" type="number"
+                                id="commandRowSpacing" onblur="onCommandRowSpacingChange(commandRowSpacing.value)" />
+                            <span class="input-group-text">px</span>
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" style="width: 200px">
+                                <i class="bi bi-arrows me-2"></i>
+                                Item Spacing
+                            </span>
+                            <input class="form-control" style="flex-grow: 0; flex-basis: 5rem" type="number"
+                                id="commandColumnSpacing"
+                                onblur="onCommandColumnSpacingChange(commandColumnSpacing.value)" />
+                            <span class="input-group-text">px</span>
+                        </div>
+                        <hr />
+                        <label class="form-label">Style</label>
+                        <select class="form-select mb-2" id="commandStyle" onchange="onCommandStyleChange(commandStyle.value)">
+                            <option value="iconAndText">Icon and Text</option>
+                            <option value="icon">Icon only</option>
+                            <option value="text">Text only</option>
+                        </select>
+                        <p class="info mb-4">Icons are configured in the Plugin Manager.</p>
+                        <label class="form-label">Text Align</label>
+                        <div class="form-row mb-4">
+                            <div class="btn-group">
+                                <button type="button" class="btn" id="commandTextAlignLeft"
+                                    onclick="onCommandTextAlign('left')">
+                                    <i class="bi bi-text-left"></i> Left
+                                </button>
+                                <button type="button" class="btn" id="commandTextAlignCenter"
+                                    onclick="onCommandTextAlign('center')">
+                                    <i class="bi bi-text-center"></i> Center
+                                </button>
+                                <button type="button" class="btn" id="commandTextAlignRight"
+                                    onclick="onCommandTextAlign('right')">
+                                    <i class="bi bi-text-right"></i> Right
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row align-items-start mb-4">
+                            <div class="col">
+                                <label class="form-check form-switch mb-4" id="shouldOverrideCommandWindowBox">
+                                    <input class="form-check-input" type="checkbox" id="shouldOverrideCommandWindow"
+                                        onchange="onOverrideCommandWindowChange(shouldOverrideCommandWindow.checked)" />
+                                    <span class="form-check-label">Individual Window File?</span>
+                                </label>
+                            </div>
+                            <div class="col">
+                                <div id="commandWindowFileBox">
+                                    <input class="form-control" type="file" id="commandWindowFile" accept="image/png"
+                                        onchange="onCommandWindowFileChange(commandWindowFile.value)" />
+                                    <p class="info mb-0">
+                                        File must be located in your game/img/system
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-end mb-4">
+                            <div class="col">
+                                <label class="form-label">Window Background</label>
+                                <select class="form-select" id="commandBackgroundType"
+                                    onchange="onCommandBackgroundTypeChange(commandBackgroundType.value)">
+                                    <option value="window">Window</option>
+                                    <option value="dimmed">Dimmed</option>
+                                    <option value="image">Image</option>
+                                    <option value="none">None</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <div id="commandBackgroundFileBox">
+                                    <input class="form-control" type="file" id="commandBackgroundFile"
+                                        accept="image/png"
+                                        onchange="onCommandBackgroundFileChange(commandBackgroundFile.value)" />
+                                    <p class="info mb-0">
+                                        File must be located in your game directory/img
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label class="form-label">Item Background</label>
+                                <select class="form-select" id="commandItemBackgroundType"
+                                    onchange="onCommandItemBackgroundTypeChange(commandItemBackgroundType.value)">
+                                    <option value="dimmed">Dimmed</option>
+                                    <option value="image">Image</option>
+                                    <option value="none">None</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <div id="commandItemBackgroundFileBox">
+                                    <input class="form-control" type="file" id="commandItemBackgroundFile"
+                                        accept="image/png"
+                                        onchange="onCommandItemBackgroundFileChange(commandItemBackgroundFile.value)" />
+                                    <p class="info mb-0">
+                                        File must be located in your game directory/img
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2 class="card-header d-flex justify-content-between collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#addWindows">
+                        Gold & Game Info Window
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi bi-chevron-up arrow"></i>
+                        </button>
+                    </h2>
+                    <div class="card-body collapse" id="addWindows">
+                        <label class="form-check form-switch mb-4">
+                            <input class="form-check-input" type="checkbox" id="showGoldWindow" checked
+                                onchange="onShowGoldChange(showGoldWindow.checked)" />
+                            <span class="form-check-label">Show?</span>
+                        </label>
+                        <div id="goldWindowBox">
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <textarea class="form-control" rows="3" id="gameInfoTextLeft"
+                                        onblur="onGameInfoTextLeftChange(gameInfoTextLeft.value)"></textarea>
+                                </div>
+                                <div class="col">
+                                    <textarea class="form-control" rows="3" id="gameInfoTextRight"
+                                        onblur="onGameInfoTextRightChange(gameInfoTextRight.value)"></textarea>
+                                </div>
+                            </div>
+                            <p class="info">
+                                You may use Text Codes (e.g. \V[1], \C[2], ...). Use
+                                <ul>
+                                    <li class="info">\$ for current gold</li>
+                                    <li class="info">\MN for map name</li>
+                                    <li class="info">\PT for playtime</li>
+                                </ul>
+                            </p>
+                            <div class="row align-items-end mt-4 mb-4">
+                                <div class="col">
+                                    <label class="form-label">Unknown Map Reference</label>
+                                    <input class="form-control" type="text" id="unknownMapName"
+                                        placeholder="Unknown Region"
+                                        onblur="onUnknownMapNameChange(unknownMapName.value)" />
+                                </div>
+                                <div class="col info">
+                                    Text to show when the current Map has no Display Name
+                                </div>
+                            </div>
+                            <div class="row align-items-end mb-4">
+                                <div class="col">
+                                    <label class="form-label">Background</label>
+                                    <select class="form-select" id="goldBackgroundType"
+                                        onchange="onGoldBackgroundTypeChange(goldBackgroundType.value)">
+                                        <option value="window">Window</option>
+                                        <option value="dimmed">Dimmed</option>
+                                        <option value="image">Image</option>
+                                        <option value="none">None</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <div id="goldBackgroundFileBox">
+                                        <input class="form-control" type="file" id="goldBackgroundFile"
+                                            accept="image/png"
+                                            onchange="onGoldBackgroundFileChange(goldBackgroundFile.value)" />
+                                        <p class="info mb-0">
+                                            File must be located in your game directory/img
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="background-color: #3B82F6">
+                    <div class="card-body row align-items-baseline">
+                        <div class="col">
+                            <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjIyMWt3bHl5NWdwczl1a2tueGt2Y2l4NjV2MGZyZTdmN2UzcHlwZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/vul9XSAk6iZZ60659C/giphy.webp"
+                                width="50" height="50">
+                        </div>
+                        <p class="col col-auto">This Plugin is free of charge but I would be happy about a small
+                            donation.</p>
+                        <div class="col">
+                            <a class="btn btn-outline-light" href="https://ko-fi.com/aerosys" target="_blank">
+                                Buy me a Ko-Fi!
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-outline-danger" onclick="onRestoreDefaults()">
+                    Restore Defaults
+                </button>
+            </div>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,36 @@
+
+.card {
+    margin-top: 1rem;
+}
+
+.custom-code {
+    /*background-color: #f8f9fa;*/
+    font-family: monospace; /* Monospace für Code */
+}
+
+.info {
+    color: #888888;
+}
+
+.rotate-90 {
+    transform: rotate(90deg);
+    display: inline-block;
+}
+
+.rotate-270 {
+    transform: rotate(270deg);
+    display: inline-block;
+}
+
+.arrow {
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.collapsed .arrow {
+    transform: rotate(180deg);
+}
+
+select.form-select {
+    width: max-content;
+}
