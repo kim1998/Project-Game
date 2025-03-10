@@ -1224,16 +1224,35 @@ $gameMessagePlus = null;
         sprite.visible = this.isOpen() && visible;
     };
 
+    function zoomedPixelPos(P, A, zoom){
+        return ((P - A) * zoom) + A;
+    }
+
     Window_Message.prototype.updatePosition = function() {
         this._target = $gameMessagePlus.target;
         const ojamaX = (Graphics.width - Graphics.boxWidth) / 2;
         const ojamaY = (Graphics.height - Graphics.boxHeight) / 2;
         const offset = parseInt($gameMessagePlus.popOffset);
-        let x, y;
+        let x, y, og;
+        let tw = $gameMap.tileWidth();
         this._pop.scale.y = 1;
+        // console.log($gameMessagePlus.target, $gameMessagePlus.target.target._eventId, $gameMessagePlus.target.target._characterIndex);
+
         if (this._target) {
             x = this.target().x - (this.width * 0.5);
+            og = this.target().x - (this.width * 0.5);
             y = (this.target().y - this.height) - 40 - (this._pop.height - offset);
+            if(isNaN(parseFloat($dataMap.meta.Zoom))){
+                y -= 0;
+                // console.log(this.target().x, this.x);
+            }else{
+                const zoom = parseFloat($dataMap.meta.Zoom);
+                const P = this.target().x;
+                const A = Graphics.width/2;
+                //console.log(zoomedPixelPos(P, A, zoom));
+                x = (zoomedPixelPos(P, A, zoom) - (this.width * 0.5));
+                y -= 96 * (zoom - 1);
+            }
         } else {
             x = this.getXParam();
             y = this.getYParam();
@@ -1363,18 +1382,46 @@ $gameMessagePlus = null;
         }
     }
 
+    const scaleCoordinates = (width, height, x, y, scale) =>{
+        const centerX = width/2;
+        const centerY = height/2;
+        const relX = x - centerX;
+        const relY = y - centerY;
+        const scaledX = relX * scale;
+        const scaledY= relY * scale;
+        return {x: scaledX + centerX, y: scaledY + centerY};
+    }
+    
     Window_Message.prototype.updatePop = function() {
+        //this.target().x = the event's x position
+        //this.x = the message box's x position (top left corner)
+        //ojamaX = the difference between the screen width and the game window width
+        //this._pop.width = the width of the pop image
         this._pop.visible = this.isOpen() && $gameMessagePlus.pop;
         if (!$gameMessagePlus.pop || !this._target || !this.isOpen()) return;
         const ojamaX = (Graphics.width - Graphics.boxWidth) / 2;
         const ojamaY = (Graphics.height - Graphics.boxHeight) / 2;
         const offset = parseInt($gameMessagePlus.popOffset);
+        var x = 0;
+        var y = 0;
+        var zoom = 1;
+        if(isNaN(parseFloat($dataMap.meta.Zoom)) == false){
+            zoom = parseFloat($dataMap.meta.Zoom);
+            y = 96 * (zoom - 1);
+            
+            x = scaleCoordinates(this.width, this.height, (this.target().x - this.x) - ojamaX - (this._pop.width / 2), 0, zoom).x;
+            //console.log((this.target().x - this.x) - ojamaX - (this._pop.width / 2), x);
+        }
+        //console.log((this.target().x - this.x) - ojamaX - (this._pop.width / 2));
         this._pop.visible = $gameMessagePlus.pop;
-        this._pop.x = (this.target().x - this.x) - ojamaX - (this._pop.width / 2);
+        const Px = this.target().x;
+        const Py = this.target().y;
+        const A = Graphics.width/2;
+        this._pop.x = (zoomedPixelPos(Px, A, zoom) - this.x) - ojamaX - (this._pop.width / 2);
         if ((this.y + ojamaY) > this.target().y) {
-            this._pop.y = (this.target().y - this.y) - ojamaY + (this._pop.height + offset);
+            this._pop.y = (this.target().y - this.y) - ojamaY + (this._pop.height + offset) - y;
         } else {
-            this._pop.y = (this.target().y - this.y) - ojamaY - 40 - (this._pop.height);
+            this._pop.y = (this.target().y - this.y) - ojamaY - 40 - (this._pop.height) - y;
         }
         
     }

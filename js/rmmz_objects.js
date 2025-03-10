@@ -6457,6 +6457,13 @@ Game_Map.prototype.canvasToMapX = function(x) {
     return this.roundX(mapX);
 };
 
+Game_Map.prototype.mapToCanvasX = function(mapX) {
+    const tileWidth = this.tileWidth();
+    const originX = this._displayX * tileWidth;
+    const x = (mapX * tileWidth) - originX;
+    return x;
+};
+
 Game_Map.prototype.canvasToMapY = function(y) {
     const tileHeight = this.tileHeight();
     const originY = this._displayY * tileHeight;

@@ -2512,8 +2512,33 @@ Scene_CoreShop.prototype.buyingPrice = function() {
     return this._buyWindow.price(this._item);
 };
 
+
+// Import necessary functions from NUUN_AnySellPrice.js
+var orderSellPriceList = orderSellPriceList || [];
+function getOrderSellPrice(item) {
+    const find = orderSellPriceList.find(sellItem => {
+        if (DataManager.isItem(item) && sellItem.type === 'item') {
+            return sellItem.id === item.id;
+        } else if (DataManager.isWeapon(item) && sellItem.type === 'weapon') {
+            return sellItem.id === item.id;
+        } else if (DataManager.isArmor(item) && sellItem.type === 'armor') {
+            return sellItem.id === item.id;
+        }
+        return false;
+    });
+    return find ? find.sell : 0;
+}
+
+function sellPrice(item) {
+    return item && item.meta.SellPrice ? Number(item.meta.SellPrice) : null;
+}
+
+// Modify the sellingPrice method in DM_CoreShop.js
 Scene_CoreShop.prototype.sellingPrice = function() {
-    return Math.floor(this._item.price / 2);
+    const item = this._item;
+    const orderSellPrice = getOrderSellPrice(item);
+    const sell = orderSellPrice > 0 ? orderSellPrice : sellPrice(this._item);
+    return sell !== null ? sell : Math.floor(this._item.price / 2);
 };
 
 Scene_CoreShop.prototype.createInventoryTitleWindow = function() {
