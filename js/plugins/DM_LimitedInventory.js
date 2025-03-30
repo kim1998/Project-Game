@@ -2268,7 +2268,7 @@ Dungeonmind.LI.ALIAS_SceneItem_create = Scene_Item.prototype.create;
 
 Scene_Item.prototype.create = function() {
     Dungeonmind.LI.ALIAS_SceneItem_create.call(this);
-    this.createInventoryTitleWindow();
+    // this.createInventoryTitleWindow(); //Inventory Capacity/Limit
     if(Dungeonmind.LI.itemWeightWindow) {
         this.createItemWeightWindow();
     }
@@ -2504,7 +2504,7 @@ Scene_Item.prototype.itemDepositRect2 = function() {
 
 Scene_Item.prototype.categoryWindowRect = function() {
     const wx = 0;
-    const wy = this.mainAreaTop() + this.calcWindowHeight(1, false);
+    const wy = this.mainAreaTop();// + this.calcWindowHeight(1, false);
     const ww = Graphics.boxWidth;
     const wh = this.calcWindowHeight(1, true);
     return new Rectangle(wx, wy, ww, wh);

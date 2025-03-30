@@ -16383,7 +16383,7 @@ Window_QuestData.prototype.drawContent = function() {
     if(this._questData._questContent !== null) {
         this.drawTextEx(this._questData._questContent,27 + Ayatam.QUEST.CustamizeSettings.QuestDatas.ContentX,this._addY + 4 + Ayatam.QUEST.CustamizeSettings.QuestDatas.ContentY);
     };
-    this._addY += (this.lineHeight()*2);
+    this._addY += (this.lineHeight()*4);
     this.contents.outlineWidth = 4;
     if(Utils.RPGMAKER_NAME === "MV") {
         this.contents.fontFace = this.standardFontFace();
