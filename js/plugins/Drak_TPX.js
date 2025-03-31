@@ -53,3 +53,12 @@ Sprite_Gauge.prototype.drawValue = function() {
     this.setupValueFont();
     this.bitmap.drawText(currentValue, 0, 0, width, height, "right");
 };
+
+const _Sprite_Gauge_redraw = Sprite_Gauge.prototype.redraw;
+Sprite_Gauge.prototype.redraw = function() {
+    if (SceneManager._scene instanceof Scene_Equip && this._statusType === "tp") {
+        this.bitmap.clear(); // Clear the gauge bitmap to ensure nothing is drawn
+        return;
+    }
+    _Sprite_Gauge_redraw.call(this); // Call the original redraw method otherwise
+};

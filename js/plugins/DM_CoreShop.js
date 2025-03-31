@@ -1863,9 +1863,9 @@ Scene_CoreShop.prototype.create = function() {
     this.createDummyWindow();
     this.createCategoryWindow();
     this.createStatusWindow();
-    if($gameShop.limitedInvPluginCheck()) {
-        this.createInventoryTitleWindow();
-    }
+    // if($gameShop.limitedInvPluginCheck()) {
+    //     this.createInventoryTitleWindow();
+    // }
     this.createShopTitleWindow();
     this.createShopStockWindow();
     this.createNumberBuyWindow();
@@ -2040,9 +2040,9 @@ Scene_CoreShop.prototype.createStatusWindow = function() {
 Scene_CoreShop.prototype.statusWindowRect = function() {
     const ww = this.statusWidth();
     var wh = this._dummyWindow.height - this._categoryWindow.height;
-    if($gameShop.limitedInvPluginCheck()) {
-        wh -= this.calcWindowHeight(1, true);
-    }
+    // if($gameShop.limitedInvPluginCheck()) {
+    //     wh -= this.calcWindowHeight(1, true);
+    // }
     const wx = Graphics.boxWidth - ww;
     const wy = this._dummyWindow.y + this._categoryWindow.height;
     return new Rectangle(wx, wy, ww, wh);
@@ -2066,9 +2066,9 @@ Scene_CoreShop.prototype.createCoreShopBuyWindow = function() {
 };
 
 Scene_CoreShop.prototype.coreShopBuyWindowRect = function() {
-    const wx = this._shopStockWindow.width;
+    const wx = 0;//this._shopStockWindow.width;
     const wy = this._dummyWindow.y + this._categoryWindow.height;
-    const ww = Graphics.boxWidth - this.statusWidth() - this._shopStockWindow.width;
+    const ww = Graphics.boxWidth - this.statusWidth();// - this._shopStockWindow.width;
     const wh = this._dummyWindow.height - this._categoryWindow.height;
     return new Rectangle(wx, wy, ww, wh);
 };
@@ -2168,11 +2168,11 @@ Scene_CoreShop.prototype.commandBuy = function() {
     this._buyWindow.deselect();
     this._buyWindow.refresh();
     this._categoryWindow.activate();
-    if($gameShop.limitedInvPluginCheck()) {
-        this._statusWindow.height = this._dummyWindow.height - this._categoryWindow.height - this.calcWindowHeight(1, true);
-    }
+    // if($gameShop.limitedInvPluginCheck()) {
+    //     this._statusWindow.height = this._dummyWindow.height - this._categoryWindow.height - this.calcWindowHeight(1, true);
+    // }
     this._statusWindow.show();
-    this._shopStockWindow.show();
+    // this._shopStockWindow.show();
     if(this._inventoryTitleWindow){this._inventoryTitleWindow.show();}
     if(this._shopTitleWindow){this._shopTitleWindow.show();}
     if (this._categoryWindow.needsSelection()) {
@@ -2435,9 +2435,9 @@ Scene_CoreShop.prototype.doBuy = function(number) {
     if(this._shopTitleWindow) {
         this._shopTitleWindow.refresh();
     }
-    if($gameShop.limitedInvPluginCheck()) {
-        this._inventoryTitleWindow.refresh();
-    }
+    // if($gameShop.limitedInvPluginCheck()) {
+    //     this._inventoryTitleWindow.refresh();
+    // }
     this._buyWindow.setMoney($gameParty._gold);
 };
 
@@ -2453,9 +2453,9 @@ Scene_CoreShop.prototype.doSell = function(number) {
     if(this._shopTitleWindow) {
         this._shopTitleWindow.refresh();
     }
-    if($gameShop.limitedInvPluginCheck()) {
-        this._inventoryTitleWindow.refresh();
-    }
+    // if($gameShop.limitedInvPluginCheck()) {
+    //     this._inventoryTitleWindow.refresh();
+    // }
     this._buyWindow.setMoney($gameParty._gold);
     this.checkUnlockShopGoods();
 };
@@ -3387,7 +3387,7 @@ Window_ShopStock.prototype.drawShopStock = function() {
     
     // Change font size for "Shop Possession"
     const originalFontSize = this.contents.fontSize;
-    this.contents.fontSize = 14; // Set your desired font size here
+    this.contents.fontSize = 10; // Set your desired font size here
     this.drawText(text, x, y, maxWidth, align);
     
     this.resetTextColor();

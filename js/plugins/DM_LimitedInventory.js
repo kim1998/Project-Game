@@ -2419,7 +2419,7 @@ Scene_Item.prototype.onDropOk = function() {
     this.dropItem(item);
     this._itemWindow.activate();
     this._itemWindow.refresh();
-    this._inventoryTitleWindow.refresh();
+    // this._inventoryTitleWindow.refresh();
     this._depositWindow.hide();
     this._depositWindow.deactivate();
     this._depositWindow.select(-1);
@@ -2604,7 +2604,7 @@ Scene_Container.prototype.create = function() {
     Scene_ItemBase.prototype.create.call(this);
     this.createHelpWindow();
     this.createContainerTitleWindow();
-    this.createInventoryTitleWindow();
+    // this.createInventoryTitleWindow();
     this.createCategoryWindow();
     this.createContainerSelectActionWindow();
     this.createItemWindow();

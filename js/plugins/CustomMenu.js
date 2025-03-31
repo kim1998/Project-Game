@@ -59,4 +59,12 @@
         const wy = this.mainAreaBottom() - wh;
         return new Rectangle(wx, wy, ww, wh);
     };
+
+    Spriteset_Battle.prototype.createBackground = function() {
+        //this._backgroundFilter = new PIXI.filters.BlurFilter();
+        this._backgroundSprite = new Sprite();
+        this._backgroundSprite.bitmap = SceneManager.backgroundBitmap();
+        //this._backgroundSprite.filters = [this._backgroundFilter];
+        this._baseSprite.addChild(this._backgroundSprite);
+    };
 })();

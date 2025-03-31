@@ -546,6 +546,14 @@
  * @type number
  * @desc The higher the number, the faster it is
  * 
+ * @param baseHeightAdjustment
+ * @text Base Height Adjustment
+ * @type number
+ * @min -100
+ * @max 100
+ * @desc Adjust the base height of each line in the Gab Window.
+ * @default 10
+ * 
  */
 
 
@@ -623,7 +631,7 @@ const autoFadeWhenCovered           = 'true' == params.autoFadeWhenCovered;
 const defaultFadeSpeed              = Number(params.defaultFadeSpeed) || 10;
 const defaultOpacityWhenCovered     = Number(params.defaultOpacityWhenCovered) || 0;
 const defaultOpenCloseSpeed         = Number(params.defaultOpenCloseSpeed) || 32;
-
+const baseHeightAdjustment          = Number(params.baseHeightAdjustment) || 10;
 
 Gab_Window.prototype.setup = function(id, showOpenAnimation) {
     this._id = id;
@@ -883,10 +891,11 @@ Gab_Window.prototype.calculateTextHeightEx = function(text) {
 }
 
 Gab_Window.prototype.calculateLineHeight = function(line) {
-    return 'MZ' == Utils.RPGMAKER_NAME
+    const baseHeight = 'MZ' == Utils.RPGMAKER_NAME
         ? this.textSizeEx(line).height
         : this.calcTextHeight({ text: line, index: 0 });
-}
+    return baseHeight - baseHeightAdjustment; // Subtract 5 (or any constant) from the line height
+};
 
 Gab_Window.prototype.textPadding = function() {
     return this.data() && this.data().textPadding !== undefined
