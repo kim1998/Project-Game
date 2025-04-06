@@ -751,5 +751,39 @@
       "shadow": false,
       "glow": false
     }
+  ],
+  null,
+  null,
+  [
+    {
+      "folder": "",
+      "bitmap": "TileSet",
+      "hue": 0,
+      "x": 587,
+      "y": 710,
+      "z": 3,
+      "iconIndex": 0,
+      "tileId": 51,
+      "tileCols": 1,
+      "tileRows": 1,
+      "anchorX": 0.5,
+      "anchorY": 1,
+      "scaleX": 100,
+      "scaleY": 100,
+      "blend": 0,
+      "opacity": 255,
+      "xFrames": 1,
+      "yFrames": 1,
+      "frameUpdate": 20,
+      "smooth": false,
+      "positionType": "map",
+      "angle": 0,
+      "blur": false,
+      "contrast": false,
+      "sepia": false,
+      "outline": false,
+      "shadow": false,
+      "glow": false
+    }
   ]
 ]

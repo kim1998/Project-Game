@@ -5485,7 +5485,7 @@ KDCore.registerLibraryToLoad(function() {
         super(...arguments);
       }
 
-      // * Стандартный набор настроек
+      // * Standard set of settings
       defaultParams() {
         return {
           visible: true,
