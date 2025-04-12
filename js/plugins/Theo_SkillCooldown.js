@@ -172,7 +172,7 @@ Theo.SkillCD = function() {
     WSKILL.drawSkillCost = function(skill, x, y, width) {
         if (this._actor && _.skillInCooldown.call(this._actor, skill.id)) {
             // If skill is on cooldown for the current actor
-            this.changeTextColor(ColorManager.textColor(8)); // Use a disabled/specific color
+            this.changeTextColor(ColorManager.textColor(7)); // Use a disabled/specific color
             const remainingTurns = this._actor._cooldowns[String(skill.id)];
             const text = remainingTurns + (remainingTurns === 1 ? " Turn" : " Turns"); // Pluralization
             // Draw text aligned to the right in the cost area

@@ -1911,8 +1911,13 @@ class BattleLightingSprite extends LightingSprite {
     }
 
     updatePostion() {
-        this.x = this.character.x + (Graphics.width - Graphics.boxWidth) / 2;
-        this.y = this.character.y + (Graphics.height - Graphics.boxHeight) / 2 - 40;
+        try {
+            this.x = this.character.x + (Graphics.width - Graphics.boxWidth) / 2;
+            this.y = this.character.y + (Graphics.height - Graphics.boxHeight) / 2 - 40;
+        }catch (e) {
+            this.x = -1000;
+            this.y = -1000;
+        }
     }
 
 }

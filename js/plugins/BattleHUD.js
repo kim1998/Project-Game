@@ -1,21 +1,15 @@
 /*:
  * @plugindesc v1.10 Moves windows, transparent command/skill/item options, hides status, custom cols.
- * @author Your Name (or AI Assistant)
+ * @author Kimo
  * @target MZ
- * @url URL_TO_PLUGIN_INFO
  *
  * @help
  * BattleHUD.js
- * Version 1.10
+ * Version 1.15
  *
  * This plugin repositions Actor Command/Help windows near the active actor,
  * optionally makes the command window transparent with customizable button widths,
  * and hides the default party status window during battle.
- *
- * New in v1.10:
- * - Added "Make Skill/Item Window Transparent?" parameter for frameless skill/item lists.
- * - Skill/Item Opacity parameter is ignored if transparency is ON.
- * - Added Skill/Item specific padding parameter for transparent mode.
  *
  * Configuration:
  * - Command Window Offset X/Y: Position relative to actor sprite.
@@ -535,6 +529,72 @@
             windowInstance._transparencyApplied = false;
         }
     }
+
+    // --- Helper to Position Help Window ---
+    function positionHelpWindowAbove(targetWindow) {
+        const helpWindow = sceneRef?._helpWindow; // Get help window reference from scene
+        if (moveHelpWindow && helpWindow && targetWindow && targetWindow.visible) {
+            const targetX = targetWindow.x;
+            const targetY = targetWindow.y;
+            const targetWidth = targetWindow.width; // Use target width for potential centering later if desired
+
+            // Calculate Help Window Position based on Target Window
+            // Use existing offsets relative to the target window
+            let targetHelpX = targetX + helpOffsetX;
+            // helpOffsetY is gap below help window, subtract help height to place above
+            let targetHelpY = targetY + helpOffsetY - helpWindow.height;
+
+            // --- Screen Clamping ---
+            const screenWidth = Graphics.boxWidth;
+            const screenHeight = Graphics.boxHeight;
+
+            // Adjust Y if it goes off-screen top (place below instead?) - Less common here
+            if (targetHelpY < 0) {
+                 // Option 1: Stick to top edge
+                 targetHelpY = 0;
+                 // Option 2: Try placing below target (might overlap actor command though)
+                 // targetHelpY = targetY + targetWindow.height - helpOffsetY; // Caution: Potential overlap
+            }
+
+            // Clamp X
+            targetHelpX = Math.round(Math.max(0, Math.min(targetHelpX, screenWidth - helpWindow.width)));
+            // Clamp Y (final bottom check)
+            targetHelpY = Math.round(Math.max(0, Math.min(targetHelpY, screenHeight - helpWindow.height)));
+
+            // Move the window
+            helpWindow.x = targetHelpX;
+            helpWindow.y = targetHelpY;
+
+            // Ensure help window is visible (though usually handled by the calling command)
+            helpWindow.show();
+
+        } else if (helpWindow) {
+            // If conditions not met (e.g., moveHelpWindow is false), ensure help window uses default logic
+            // This might involve hiding it or letting the actor command positioning take over later.
+            // For now, just don't move it based on the skill/item window.
+            // Consider if it should be explicitly hidden: helpWindow.hide(); ?
+        }
+    }
+
+    // When Skill window opens
+    const _Scene_Battle_commandSkill = Scene_Battle.prototype.commandSkill;
+    Scene_Battle.prototype.commandSkill = function() {
+        _Scene_Battle_commandSkill.call(this); // Let original logic run first (activates skill window)
+        // Now, position help window above the skill window
+        if (this._skillWindow) { // Check if skill window exists
+            positionHelpWindowAbove(this._skillWindow);
+        }
+    };
+
+    // When Item window opens
+    const _Scene_Battle_commandItem = Scene_Battle.prototype.commandItem;
+    Scene_Battle.prototype.commandItem = function() {
+        _Scene_Battle_commandItem.call(this); // Let original logic run first (activates item window)
+        // Now, position help window above the item window
+        if (this._itemWindow) { // Check if item window exists
+            positionHelpWindowAbove(this._itemWindow);
+        }
+    };
 
     // Shared modifications for both Skill and Item Windows
     function modifySkillItemWindowPrototypes(Window_Class) {
