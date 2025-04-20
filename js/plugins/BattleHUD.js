@@ -744,24 +744,34 @@
             }
         };
 
-        // Override drawItem for BattleItem (doesn't need cost)
+        // Override drawItem for BattleItem (Corrected to include item number)
         const _Window_BattleItem_drawItem = Window_BattleItem.prototype.drawItem;
         Window_BattleItem.prototype.drawItem = function(index) {
             if (this._transparencyApplied) {
                 const item = this.itemAt(index);
                 if (item) {
-                    const rect = this.itemLineRect(index);
+                    const rect = this.itemLineRect(index); // Base rectangle
                     const PADDING = skillItemTransparentPadding;
+                    // Calculate drawing area based on full item width minus padding
                     const drawX = rect.x + PADDING;
                     const drawY = rect.y + PADDING;
+                    // Width available for drawing content (name + number)
                     const drawWidth = this.itemWidth() - PADDING * 2;
 
                     this.changePaintOpacity(this.isEnabled(item));
+
+                    // 1. Draw Item Name (and Icon) using padded coords/width
                     this.drawItemName(item, drawX, drawY, drawWidth);
-                    // No drawSkillCost needed for items
-                    this.changePaintOpacity(1);
+
+                    // 2. Draw Item Number using padded coords/width
+                    // The drawItemNumber method itself handles right-alignment within the given width.
+                    // It also checks if the window type needs numbers ($gameParty.numItems).
+                    this.drawItemNumber(item, drawX - 35, drawY, drawWidth); // <-- ADDED THIS LINE
+
+                    this.changePaintOpacity(1); // Reset opacity
                 }
             } else {
+                // Fallback to original method if not transparent
                 _Window_BattleItem_drawItem.call(this, index);
             }
         };

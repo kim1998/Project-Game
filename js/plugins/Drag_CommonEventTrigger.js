@@ -136,7 +136,27 @@
  * @desc Run this common event when one of the followers level up.
  * @type common_event
  * @default 0
+ * 
+ * @param OnActor2LevelUp
+ * @parent Level Up
+ * @text On Actor 2 Level Up
+ * @desc Run this common event when actor 2 levels up.
+ * @type common_event
+ * @default 0
  *
+ * @param OnActor3LevelUp
+ * @parent Level Up
+ * @text On Actor 3 Level Up
+ * @desc Run this common event when actor 3 levels up.
+ * @type common_event
+ * @default 0
+ * 
+ * @param OnActor4LevelUp
+ * @parent Level Up
+ * @text On Actor 4 Level Up
+ * @desc Run this common event when actor 4 levels up.
+ * @type common_event
+ * @default 0
  *
  * @param Level Down
  * @desc Level Down
@@ -228,6 +248,9 @@ Drag.CommonEventTrigger = Drag.CommonEventTrigger || {};
 		Drag.CommonEventTrigger.params.OnCharacterLevelUp = parseInt(Drag.CommonEventTrigger.params.OnCharacterLevelUp) || 0;
 		Drag.CommonEventTrigger.params.OnPlayerLevelUp = parseInt(Drag.CommonEventTrigger.params.OnPlayerLevelUp) || 0;
 		Drag.CommonEventTrigger.params.OnFollowerLevelUp = parseInt(Drag.CommonEventTrigger.params.OnFollowerLevelUp) || 0;
+		Drag.CommonEventTrigger.params.OnActor2LevelUp = parseInt(Drag.CommonEventTrigger.params.OnActor2LevelUp) || 0;
+		Drag.CommonEventTrigger.params.OnActor3LevelUp = parseInt(Drag.CommonEventTrigger.params.OnActor3LevelUp) || 0;
+		Drag.CommonEventTrigger.params.OnActor4LevelUp = parseInt(Drag.CommonEventTrigger.params.OnActor4LevelUp) || 0;
 		
 		Drag.CommonEventTrigger.params.OnCharacterLevelDown = parseInt(Drag.CommonEventTrigger.params.OnCharacterLevelDown) || 0;
 		Drag.CommonEventTrigger.params.OnPlayerLevelDown = parseInt(Drag.CommonEventTrigger.params.OnPlayerLevelDown) || 0;
@@ -315,7 +338,14 @@ Drag.CommonEventTrigger = Drag.CommonEventTrigger || {};
 			Drag.CommonEventTrigger.runCommonEvent(Drag.CommonEventTrigger.params.OnPlayerLevelUp);
 		else if ($gameParty.allMembers)
 			Drag.CommonEventTrigger.runCommonEvent(Drag.CommonEventTrigger.params.OnFollowerLevelUp);
-		Drag.CommonEventTrigger.runCommonEvent(Drag.CommonEventTrigger.params.OnCharacterLevelUp);
+		if (this.actorId() === 2) 
+			Drag.CommonEventTrigger.runCommonEvent(Drag.CommonEventTrigger.params.OnActor2LevelUp);
+		if (this.actorId() === 3) 
+			Drag.CommonEventTrigger.runCommonEvent(Drag.CommonEventTrigger.params.OnActor3LevelUp);
+		if (this.actorId() === 4) 
+			Drag.CommonEventTrigger.runCommonEvent(Drag.CommonEventTrigger.params.OnActor4LevelUp);
+	
+	Drag.CommonEventTrigger.runCommonEvent(Drag.CommonEventTrigger.params.OnCharacterLevelUp);
 	};
 	
 	var Drag_Game_Actor_levelDown = Game_Actor.prototype.levelDown;

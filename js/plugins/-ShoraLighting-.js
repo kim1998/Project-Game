@@ -1639,7 +1639,7 @@ class LightingLayer {
      */
     removeLight(id) {
         if (!this.lights[id]) 
-            return Shora.warn('cant remove light' + id); 
+            return;// Shora.warn('cant remove light' + id); 
         const light = this.lights[id];
         this.lights[id] = null;
         this.layer.removeChild(light);
