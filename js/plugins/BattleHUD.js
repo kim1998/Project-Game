@@ -254,7 +254,6 @@
     let originalCommandWindowWidth = 0;
     let originalCommandWindowHeight = 0;
 
-
     // --- Battle Status Window Hiding ---
     if (hideStatusWindow) {
         // This completely overrides the function that normally shows/hides the status window.
