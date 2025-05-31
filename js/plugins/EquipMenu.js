@@ -24,53 +24,16 @@
  * @type number
  * @default 22
  *
- * @param restrictions
- * @text Slot Restrictions
- * @desc Rules for restricting visible equip slots for specific actors.
- * @type struct<Restriction>[]
- * @default []
- *
- * @basedOn Version 1.3.0
- */
-
-/*~struct~Restriction:
- * @param actorId
- * @text Actor ID
- * @desc The actor this restriction applies to.
- * @type actor
- * @default 0
- *
- * @param allowedEquipTypeIds
- * @text Allowed Equip Type IDs
- * @desc List of Equip Type IDs (Database > Types) this actor CAN see/use. Others are hidden.
- * @type number[]
- * @default []
- * 
+ * @basedOn Version 1.3.1
  */
 
 (() => {
     'use strict';
 
-    const scriptName = "EquipMenu";
+    const scriptName = "EquipMenu"; // Use the filename
     const parameters = PluginManager.parameters(scriptName);
     const slotWindowWidth = parseInt(parameters['slotWindowWidth'] || 200);
     const slotFontSize = parseInt(parameters['slotFontSize'] || 22);
-
-    // --- Process Restrictions ---
-    const parsedRestrictions = JSON.parse(parameters['restrictions'] || "[]");
-    const actorRestrictions = {}; // Map: actorId -> Set<allowedEquipTypeId>
-    for (const restriction of parsedRestrictions) {
-        try {
-            const data = JSON.parse(restriction);
-            const actorId = parseInt(data.actorId);
-            const allowedIds = JSON.parse(data.allowedEquipTypeIds || "[]").map(idStr => parseInt(idStr));
-            if (actorId > 0 && allowedIds.length > 0) {
-                actorRestrictions[actorId] = new Set(allowedIds);
-            }
-        } catch (e) {
-            console.error(`Error parsing restriction: ${restriction}`, e);
-        }
-    }
 
     // --- Helper Function for Window Heights ---
     const Window_Base_calcWindowHeight = function(numLines, selectable) {
@@ -124,16 +87,7 @@
 
     // --- Slot/Item OK/Cancel Handlers ---
     Scene_Equip.prototype.onSlotOk = function() {
-        // Item window needs the *original* slot index
-        const originalSlotId = this._slotWindow.originalSlotIndex(this._slotWindow.index());
-        if (originalSlotId >= 0) { // Check if valid mapping exists
-             this._itemWindow.setSlotId(originalSlotId);
-             this.activateItemWindow();
-        } else {
-            // Should not happen if filtering is correct, but handle defensively
-            SoundManager.playBuzzer();
-            this._slotWindow.activate();
-        }
+        this.activateItemWindow();
     };
 
     Scene_Equip.prototype.onSlotCancel = function() {
@@ -142,45 +96,18 @@
 
     Scene_Equip.prototype.onItemOk = function() {
         SoundManager.playEquip();
-        // We need the *original* slot index from the visual index
-        const visualIndex = this._slotWindow.index();
-        const originalSlotId = this._slotWindow.originalSlotIndex(visualIndex);
+        const slotId = this._slotWindow.index();
         const item = this._itemWindow.item();
-
-        if (originalSlotId >= 0) { // Check valid mapping
-            this.actor().changeEquip(originalSlotId, item);
-            this.activateSlotWindow(); // Return focus to slots
-            // Refresh windows AFTER activation change
-            this._slotWindow.refresh();
-            this._itemWindow.refresh(); // Item list might change (e.g., dual wield)
-            this._statusWindow.refresh();
-        } else {
-             // Should not happen, but indicates an issue mapping index
-             SoundManager.playBuzzer();
-             this.activateSlotWindow(); // Go back to slots
-             this._slotWindow.refresh(); // Refresh just in case
-             this._statusWindow.refresh();
-        }
+        this.actor().changeEquip(slotId, item);
+        this.activateSlotWindow(); // Return focus to slots
+        // Refresh windows AFTER activation change
+        this._slotWindow.refresh();
+        this._itemWindow.refresh();
+        this._statusWindow.refresh();
     };
 
     Scene_Equip.prototype.onItemCancel = function() {
         this.activateSlotWindow();
-    };
-
-    // --- Slot Change Handler ---
-    Scene_Equip.prototype.onSlotChange = function() {
-        // Called when the selected slot index changes in Window_EquipSlot
-        // Update item window using the *original* slot index
-        const visualIndex = this._slotWindow.index();
-        const originalSlotId = this._slotWindow.originalSlotIndex(visualIndex);
-
-        if (this._itemWindow && originalSlotId >= 0) {
-            this._itemWindow.setSlotId(originalSlotId);
-        }
-        // Update help window too if needed
-        if (this._helpWindow && this._slotWindow) {
-            this._slotWindow.callUpdateHelp(); // Let the slot window update help
-        }
     };
 
     // --- Window Layout Definitions ---
@@ -313,23 +240,16 @@
 
 
     // --- Actor Refresh ---
-    const _Scene_Equip_refreshActor = Scene_Equip.prototype.refreshActor;
-    Scene_Equip.prototype.refreshActor = function() {
-        const actor = this.actor();
-        // Refresh status and slot windows (slot window rebuilds its map in setActor)
-        if (this._statusWindow) this._statusWindow.setActor(actor);
-        if (this._slotWindow) this._slotWindow.setActor(actor);
- 
-        // Refresh item window AFTER slot window has rebuilt its map
-        if (this._itemWindow && this._slotWindow) {
-            const visualIndex = this._slotWindow.index();
-            const originalSlotId = this._slotWindow.originalSlotIndex(visualIndex);
-            this._itemWindow.setActor(actor);
-            // Set slot ID based on the potentially new filtered list's current selection
-            this._itemWindow.setSlotId(originalSlotId >= 0 ? originalSlotId : -1); // Pass -1 if no valid slot selected
-        }
-        this.activateSlotWindow(); // Ensure correct window is active
-    };
+   const _Scene_Equip_refreshActor = Scene_Equip.prototype.refreshActor;
+   Scene_Equip.prototype.refreshActor = function() {
+       _Scene_Equip_refreshActor.call(this);
+       if (this._slotWindow && this._itemWindow && this.actor()) {
+           const slotId = this._slotWindow.index();
+           this._itemWindow.setActor(this.actor());
+           this._itemWindow.setSlotId(slotId >= 0 ? slotId : 0);
+       }
+       this.activateSlotWindow();
+   };
 
 
     // --- Modify Slot Window Drawing ---
@@ -422,177 +342,6 @@
         }
 
         this.changePaintOpacity(true); // Ensure opacity is fully restored at the end
-    };
-
-    // ========================================================================
-    // == Window_EquipSlot Modifications for Filtering ==
-    // ========================================================================
-
-    // --- Store Filtered Map ---
-    // Add a property to store the mapping: visual index -> original index
-    const _Window_EquipSlot_initialize = Window_EquipSlot.prototype.initialize;
-    Window_EquipSlot.prototype.initialize = function(rect) {
-        // Initialize the map *BEFORE* calling the parent initialize method.
-        this._filteredSlotMap = [];
-        // Now call the original initialize, which might trigger refresh/maxItems
-        _Window_EquipSlot_initialize.call(this, rect);
-        // We no longer need to initialize it here again.
-    };
-
-    // --- Build Filtered Map ---
-    // New method to create the mapping based on restrictions
-    Window_EquipSlot.prototype.buildFilteredSlotMap = function() {
-        this._filteredSlotMap = [];
-        if (!this._actor) {
-            return;
-        }
-
-        const actorId = this._actor.actorId();
-        const restrictionSet = actorRestrictions[actorId]; // Get Set of allowed type IDs
-        const originalSlots = this._actor.equipSlots(); // Array of equip type IDs
-
-        for (let i = 0; i < originalSlots.length; i++) {
-            const equipTypeId = originalSlots[i];
-            // If no restriction OR if the slot's type ID is in the allowed set
-            if (!restrictionSet || restrictionSet.has(equipTypeId)) {
-                this._filteredSlotMap.push(i); // Add the original index 'i' to our map
-            }
-        }
-        // Ensure selection is valid after filtering
-        this.refresh(); // Refresh draws items based on the new map size
-        this.select(Math.min(this.index(), this.maxItems() - 1)); // Clamp selection
-        if (this.maxItems() === 0) {
-             this.select(-1); // No selectable items
-        } else if (this.index() < 0 && this.maxItems() > 0) {
-            this.select(0); // Select first if nothing was selected
-        }
-
-    };
-
-    // --- Original Slot Index Lookup ---
-    // New method to get original index from visual index
-    Window_EquipSlot.prototype.originalSlotIndex = function(visualIndex) {
-        if (visualIndex >= 0 && visualIndex < this._filteredSlotMap.length) {
-            return this._filteredSlotMap[visualIndex];
-        }
-        return -1; // Invalid index
-    };
-
-    // --- Update Actor Handling ---
-    // Rebuild map when actor changes
-    const _Window_EquipSlot_setActor = Window_EquipSlot.prototype.setActor;
-    Window_EquipSlot.prototype.setActor = function(actor) {
-        if (this._actor !== actor) {
-            _Window_EquipSlot_setActor.call(this, actor); // Call original first
-            this.buildFilteredSlotMap(); // Build map for the new actor
-            // Scene refresh handles calling handlers/updating other windows
-        }
-    };
-
-    // --- Override Max Items ---
-    // Return the size of the filtered list
-    Window_EquipSlot.prototype.maxItems = function() {
-        return this._filteredSlotMap.length;
-    };
-
-    // --- Override Item Retrieval ---
-    // Use the map to get the item from the correct original slot
-    Window_EquipSlot.prototype.item = function() {
-        // Window_Selectable.item() relies on index() and itemAt(index)
-        // We override itemAt instead for consistency
-        return this.itemAt(this.index());
-    };
-
-    Window_EquipSlot.prototype.itemAt = function(visualIndex) {
-        const originalIndex = this.originalSlotIndex(visualIndex);
-        return originalIndex >= 0 && this._actor ? this._actor.equips()[originalIndex] : null;
-    };
-
-    // --- Override Slot Name Retrieval ---
-    // Use the map to get the name for the correct original slot
-    Window_EquipSlot.prototype.slotName = function(visualIndex) {
-        const originalIndex = this.originalSlotIndex(visualIndex);
-        if (originalIndex >= 0 && this._actor) {
-            const slotType = this._actor.equipSlots()[originalIndex];
-            return $dataSystem.equipTypes[slotType];
-        }
-        return "";
-    };
-
-    // --- Override isEnabled Check ---
-    // Use the map to check the correct original slot
-    Window_EquipSlot.prototype.isEnabled = function(visualIndex) {
-         const originalIndex = this.originalSlotIndex(visualIndex);
-         return originalIndex >= 0 && this._actor ? this._actor.isEquipChangeOk(originalIndex) : false;
-    };
-
-    // --- Modify Slot Window Drawing ---
-    // It now uses the overridden itemAt, slotName, isEnabled which use the mapping.
-    // We just need to ensure it calls isEnabled correctly.
-    Window_EquipSlot.prototype.drawItem = function(index) { // index is visualIndex here
-        const actor = this._actor;
-        if (!actor) {
-            return;
-        }
-        const rect = this.itemLineRect(index);
-        const enabled = this.isEnabled(index); // Uses the overridden isEnabled
-
-        // --- Get slot name using overridden method ---
-        const slotName = this.slotName(index);
-
-        // --- Get equipped item using overridden method ---
-        const item = this.itemAt(index);
-
-        // --- Layout and Drawing (same as previous version, relying on mapped getters) ---
-        const nameIndent = 4;
-        const spacing = 8;
-        const iconWidth = ImageManager.iconWidth;
-        const itemTextPadding = 4;
-
-        // --- Draw Slot Name (Left Aligned) ---
-        this.changePaintOpacity(enabled);
-        const originalFontSize = this.contents.fontSize;
-        this.contents.fontSize = slotFontSize;
-
-        const maxSlotNameWidth = Math.floor(rect.width * 0.40);
-        const slotNameActualWidth = this.textWidth(slotName);
-        const slotNameDrawWidth = Math.min(slotNameActualWidth, maxSlotNameWidth);
-        this.drawText(slotName, rect.x + nameIndent, rect.y, slotNameDrawWidth, "left");
-
-        this.contents.fontSize = originalFontSize;
-
-        // --- Calculate Item Area Boundaries ---
-        const itemAreaStartX = rect.x + nameIndent + slotNameDrawWidth + spacing;
-        const itemAreaEndX = rect.x + rect.width;
-        const itemAreaWidth = Math.max(0, itemAreaEndX - itemAreaStartX);
-
-        // --- Draw Item Icon & Name (Manually, Right Aligned) ---
-        if (item && itemAreaWidth > 0) {
-            const itemNameWidth = this.textWidth(item.name);
-            const totalItemDrawWidth = iconWidth + itemTextPadding + itemNameWidth;
-            const iconStartX = Math.max(itemAreaStartX, itemAreaEndX - totalItemDrawWidth);
-
-            if (iconStartX + iconWidth <= itemAreaEndX) {
-                this.drawIcon(item.iconIndex, iconStartX, rect.y + 2);
-            }
-
-            const textStartX = iconStartX + iconWidth + itemTextPadding;
-            const textMaxWidth = Math.max(0, itemAreaEndX - textStartX);
-            if (textMaxWidth > 0) {
-                this.drawText(item.name, textStartX, rect.y, textMaxWidth, "left");
-            }
-        } else if (itemAreaWidth > 0) { // Draw '---' placeholder
-            const placeholderText = "---";
-            const placeholderWidth = this.textWidth(placeholderText);
-            const placeholderX = Math.max(itemAreaStartX, itemAreaEndX - placeholderWidth);
-            const placeholderDrawWidth = Math.min(placeholderWidth, itemAreaEndX - placeholderX);
-
-            this.changePaintOpacity(false);
-            this.drawText(placeholderText, placeholderX, rect.y, placeholderDrawWidth, "left");
-            this.changePaintOpacity(true);
-        }
-
-        this.changePaintOpacity(true);
     };
 
 })(); // End IIFE
