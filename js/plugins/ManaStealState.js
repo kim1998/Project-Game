@@ -1,95 +1,145 @@
 /*:
- * @target MZ
- * @plugindesc Adds mana steal to states.
- * @help
- * This plugin lets you assign a mana recovery effect to states via a note tag.
- *
- * How to use:
- * 1. Add <manaSteal: x, y> to state notetag.
- * 2. x is the chance to trigger the effect between 0 and 1.
- * 3. y is the percentage of damage dealt to gain as MP between 0 and 1.
- * 
- * 1. Add <doubleHit: x> to skill notetag.
- * 2. x is the chance to trigger the effect between 0 and 1.
- * 
- * 1. Add <repeat: x, y, z> to skill notetag.
- * 2. x is the chance to trigger the effect between 0 and 1.
- * 3. y is the minimum amount of repeats.
- * 4. z is the maximum amount of repeats.
- */
+    @target MZ
+    @plugindesc Adds advanced notetags to skills, states, weapons, and armor.
+    @help
+    This plugin enhances skills, states, weapons, and armor with special
+    notetags for mana steal, double hits, and action repeats.
 
-(function() {
+    --- Notetag Details ---
+
+    <manaSteal: x, y>
+    - Can be used on: Skills, States, Weapons, Armor
+    - When you deal HP damage, you have a chance to recover MP.
+    - x: The chance to trigger (e.g., 0.5 for 50%).
+    - y: The percentage of damage to gain as MP (e.g., 0.1 for 10%).
+    - Note: All successful manaSteal effects from any source will stack.
+
+    <doubleHit: x>
+    - Can be used on: Skills, States, Weapons, Armor
+    - Gives Skill ID 2 a chance to strike twice. This notetag will
+      only work when the active skill is Skill ID 2.
+    - x: The chance to trigger (e.g., 0.25 for 25%).
+
+    <repeat: x, y, z>
+    - Can be used on: Skills, States, Weapons, Armor
+    - Gives the action a chance to repeat multiple times.
+    - x: The chance to trigger (e.g., 0.1 for 10%).
+    - y: The minimum number of repeats.
+    - z: The maximum number of repeats.
+
+    --- Priority for doubleHit & repeat ---
+
+    Since only one repeat effect can apply at a time, they are
+    checked in a specific order. The first one to successfully trigger
+    is the one that will be used.
+
+    1. The Skill/Item being actively used.
+    2. Equipped Weapons and Armor.
+    3. Active States on the user.
+    4. Other Skills the user has learned (for passive effects).
+
+    On any single item, <repeat> is checked before <doubleHit>.
+*/
+
+(function () {
     const _Game_Action_apply = Game_Action.prototype.apply;
-    Game_Action.prototype.apply = function(target) {
+    Game_Action.prototype.apply = function (target) {
         _Game_Action_apply.call(this, target);
-        //Only proceed if the target is an enemy and the subject is an actor.
-        if (target.isEnemy() && this.subject().isActor()) {
+        
+        if (target.isEnemy() && this.subject().isActor() && target.result().hpDamage > 0) {
             const damageDealt = target.result().hpDamage;
-            if (damageDealt > 0) {
-                let totalMpGain = 0;
-                //Loops through all skills on the actor
-                this.subject().skills().forEach(skill => {
-                    ///Checks if the notetag is: <manaSteal: x, y>
-                    const regex = /<manaSteal:\s*([\d.]+)\s*,\s*([\d.]+)\s*>/i;
-                    const match = skill.note.match(regex);
-                    if (match) {
-                        const chance = parseFloat(match[1]);
-                        const mpPercentage = parseFloat(match[2]);
-                        if (Math.random() < chance) {
-                            totalMpGain = Math.floor(damageDealt * mpPercentage);
-                        }
+            let totalMpGain = 0;
+            const manaStealRegex = /<manaSteal:\s*([\d.]+)\s*,\s*([\d.]+)\s*>/i;
+
+            const processManaSteal = (item) => {
+                if (!item) return;
+                const match = item.note.match(manaStealRegex);
+                if (match) {
+                    const chance = parseFloat(match[1]);
+                    const mpPercentage = parseFloat(match[2]);
+                    if (Math.random() < chance) {
+                        totalMpGain += Math.floor(damageDealt * mpPercentage);
                     }
-                });
-                this.subject().states().forEach(state => {
-                    //Checks if the notetag is: <manaSteal: x, y>
-                    const regex = /<manaSteal:\s*([\d.]+)\s*,\s*([\d.]+)\s*>/i;
-                    const match = state.note.match(regex);
-                    if (match) {
-                        const chance = parseFloat(match[1]);
-                        const mpPercentage = parseFloat(match[2]);
-                        if (Math.random() < chance) {
-                            totalMpGain = Math.floor(damageDealt * mpPercentage);
-                        }
-                    }
-                });
-                if (totalMpGain > 0) {
-                    this.subject().gainMp(totalMpGain);
                 }
+            };
+            
+            const sources = [
+                ...this.subject().states(),
+                ...this.subject().equips(),
+                ...this.subject().skills()
+            ];
+
+            sources.forEach(processManaSteal);
+
+            if (totalMpGain > 0) {
+                this.subject().gainMp(totalMpGain);
             }
         }
     };
+
     const _Game_Action_numRepeats = Game_Action.prototype.numRepeats;
-    Game_Action.prototype.numRepeats = function() {
-        let repeats = this.item().repeats;
-        if (this.isAttack()) {
-            repeats += this.subject().attackTimesAdd();
+    Game_Action.prototype.numRepeats = function () {
+        let baseRepeats = _Game_Action_numRepeats.call(this);
+
+        if (!this.subject() || !this.subject().isActor()) {
+            return baseRepeats;
         }
 
-        // Check if the current skill is the specific skill you want to apply the repeat logic to
-        const specificSkillId = 2;
-        if (this.item().id === specificSkillId) {
-            this.subject().skills().forEach(skill => {
-                const repeatReg = /<doubleHit:\s*([\d.]+)\s*>/i;
-                const repeatMatch = skill.note.match(repeatReg);
-                if (repeatMatch) {
-                    const chance = parseFloat(repeatMatch[1]);
+        const repeatRegex = /<repeat:\s*([\d.]+)\s*,\s*(\d+)\s*,\s*(\d+)\s*>/i;
+        const doubleHitRegex = /<doubleHit:\s*([\d.]+)\s*>/i;
 
-                    if (Math.random() < chance) {
-                        repeats = 2;
-                    }
+        const checkSourceForRepeats = (source) => {
+            if (!source || !source.note) return null;
+
+            // <repeat> tag has priority
+            const repeatMatch = source.note.match(repeatRegex);
+            if (repeatMatch) {
+                const chance = parseFloat(repeatMatch[1]);
+                if (Math.random() < chance) {
+                    const min = parseInt(repeatMatch[2]);
+                    const max = parseInt(repeatMatch[3]);
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
                 }
-            });
-        }
-        // Check if the current skill has the <repeat: x> notetag
-        const repeatReg = /<repeat:\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*>/i;
-        const repeatMatch = this.item().note.match(repeatReg);
-        if (repeatMatch) {
-            const repeatCount = parseInt(repeatMatch[1]);
-            const min = parseInt(repeatMatch[2]);
-            const max = parseInt(repeatMatch[3]);
-            repeats = Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-        return Math.floor(repeats);
+            }
+            
+            // Check for <doubleHit>, but ONLY if the current action is Skill ID 2
+            const doubleHitMatch = source.note.match(doubleHitRegex);
+            if (doubleHitMatch && this.isSkill() && this.item().id === 2) {
+                const chance = parseFloat(doubleHitMatch[1]);
+                if (Math.random() < chance) {
+                    return 2;
+                }
+            }
+            return null;
+        };
 
+        let newRepeats = null;
+
+        // Priority 1: The Skill or Item being used
+        newRepeats = checkSourceForRepeats(this.item());
+        if (newRepeats !== null) return newRepeats;
+
+        // Priority 2: Equipped weapons and armor
+        for (const equip of this.subject().equips()) {
+            newRepeats = checkSourceForRepeats(equip);
+            if (newRepeats !== null) return newRepeats;
+        }
+
+        // Priority 3: Active states
+        for (const state of this.subject().states()) {
+            newRepeats = checkSourceForRepeats(state);
+            if (newRepeats !== null) return newRepeats;
+        }
+        
+        // Priority 4: Other learned skills (for passive effects)
+        for (const skill of this.subject().skills()) {
+            if (this.isSkill() && this.item().id === skill.id) continue;
+            newRepeats = checkSourceForRepeats(skill);
+            if (newRepeats !== null) return newRepeats;
+        }
+
+        return baseRepeats;
     };
+
 })();
+

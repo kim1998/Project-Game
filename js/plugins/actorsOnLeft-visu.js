@@ -64,17 +64,15 @@ function faceClosestEnemy(actor) {
             // const enemyX = $gameTroop.aliveMembers()[0]?.screenX() || 0; // Get the first enemy's X position
             // const enemyX = $gameTroop.aliveMembers().map(enemy => enemy.screenX() || 0); // Get X positions of all enemies
             // const enemyY = $gameTroop.aliveMembers().map(enemy => enemy.screenY() || 0); // Get X positions of all enemies
-            if($target != null) {
-                if($subject != null) {
-                    if (this._actor.isActor() && $subject.isActor()) {
-                        const enemyX = $target.battler().x || 0;
-                        // console.log($subject);
-                        
-                        if (this.x > enemyX) {
-                            this._mainSprite.scale.x = 1; // Face right
-                        } else {
-                            this._mainSprite.scale.x = -1; // Face left
-                        }
+            if($target != null && $subject != null) {
+                if ($subject != null && $target != null && $subject.battler() !== undefined && $target.battler() !== undefined && this._actor.isActor() && $subject.isActor()) {
+                    const enemyX = $target.battler().x || 0;
+                    // console.log($subject);
+                    
+                    if (this.x > enemyX) {
+                        this._mainSprite.scale.x = 1; // Face right
+                    } else {
+                        this._mainSprite.scale.x = -1; // Face left
                     }
                 }
             }else{
@@ -97,7 +95,7 @@ function faceClosestEnemy(actor) {
     // Update weapon sprite orientation dynamically during battle
     Sprite_Weapon.prototype.update = function() {
         alias.apply(this, arguments);
-        if ($subject != null) {
+        if ($subject != null && $target != null && $subject.battler() !== undefined && $target.battler() !== undefined) {
             if ($subject.isActor()) {
                 const enemyX = $target.battler().x || 0;
                 const actorX = $subject.battler().x || 0;

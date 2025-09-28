@@ -8,13 +8,13 @@ Imported.DM_CoreShop = true;
 
 var Dungeonmind = Dungeonmind || {};
 Dungeonmind.CS = Dungeonmind.CS || {};
-Dungeonmind.CS.version = 1.16;
+Dungeonmind.CS.version = 1.26;
 
 /*:
  * DM_CoreShop.js
- * Version 1.16
+ * Version 1.26
  *
- * @plugindesc [Rpg Maker MZ] [Tier 3] [Version 1.16] - This plugin will help you create
+ * @plugindesc [Rpg Maker MZ] [Tier 3] [Version 1.26] - This plugin will help you create
  * advanced shops for your game.
  *
  * @url https://www.dmplugins.com
@@ -24,66 +24,96 @@ Dungeonmind.CS.version = 1.16;
  * @help
  *
  *
- * ===========================================================================
- * Terms and Condtions
- * ===========================================================================
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ *  🔍 Table of Contents
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * 
+ * 1. 📝 Terms of Use
+ * 2. 📄 Plugin Description
+ * 3. 🔌 Compatibility
+ * 4. 🏷️ Note Tags
+ *    4.1 ➢ Items, Weapons, and Armors
+ * 5. 💡 Script Calls
+ * 6. 🔀 Conditional Script Calls
+ * 7. 🔓 Benefits of Registration
  *
- * You may use this plugin for free in a non-commercial game only. However, 
- * commercial license is available. Read down below. Please credit me as
- * Dungeonmind or Justin Lamarche.
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * 1. 📝 Terms of Use
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
- * Don't take any code for your own released plugins. You can edit the code 
- * for your own projects only.
+ * 1.1 Licence Terms: By purchasing or downloading the plugin, you acknowledge 
+ *     that you have received or been provided access to a licence agreement, 
+ *     and you agree to the terms and conditions outlined in that licence 
+ *     agreement. Failure to comply with these terms may result in licence 
+ *     revocation.
+ * 1.2 Ownership and Redistribution: The plugin and its code are the exclusive 
+ *     property of Dungeonmind. You may use the plugin in your RPG Maker 
+ *     projects, but you may not resell, redistribute, or claim ownership of 
+ *     the plugin/code itself, except as specifically permitted in the licence 
+ *     agreement.
+ * 1.3 Code Usage: The plugin/code is licensed for use in RPG Maker MV/MZ 
+ *     projects as specified in the licence agreement. You may not extract or 
+ *     reuse code in other plugins or non-RPG Maker projects without express 
+ *     permission.
+ * 1.4 Usage Restrictions: If the plugin is downloaded without purchasing a 
+ *     commercial licence, it is for non-commercial use only. Commercial use 
+ *     requires a licence purchase from the official website or any officially 
+ *     supported platform like itch.io.
+ * 1.5 Confidentiality: The plugin/code is confidential and should not be 
+ *     shared with anyone without express permission from Dungeonmind.
+ * 1.6 Modification: You are permitted to edit the plugin/code for the 
+ *     purposes of your personal projects, as specified in the licence 
+ *     agreement. Any other modifications, including redistribution or reuse 
+ *     of modified code, require express permission from Dungeonmind.
+ * 1.7 Attribution Requirements: As specified in the plugin's licence agreement, 
+ *     providing credit is required. Please refer to the licence for specific 
+ *     credit requirements.
+ * 1.8 Precedence: In the event of any conflict or inconsistency between the 
+ *     terms outlined in this plugin help file and the licence agreement, 
+ *     the terms of the licence agreement shall take precedence.
  *
- * You must obtain a license from www.dmplugins.com before using this plugin
- * in a commercial project. More information about that license can be found
- * on the plugin page you downloaded it from.
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * 2. 📄 Plugin Description
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
- * I am not responsible or liable if you choose to use this plugin in your
- * project. It is up to you to figure out if its a right fit (part of the 
- * reason why the full version is always available for you to download and 
- * try out first).
+ * ⓘ This plugin provides a robust shop system with advanced customization 
+ * options, allowing you to create unique in-game shops tailored to your game's 
+ * needs. Please take a moment to review this help file, as it contains detailed 
+ * instructions and examples to help you get the most out of the plugin's 
+ * features.
  *
- * What I can Promise : I won't just disappear, I am a full time game dev and
- * my plugins will be kept up to date. Just make sure you have the latest build
- * by visiting the plugin page for the one you want.
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * 3. 🔌 Compatibility
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
- * ===========================================================================
- * Warning!
- * ===========================================================================
+ * ⓘ This plugin is compatible with the following plugins:
  *
- * PLEASE CAREFULLY READ YOUR LICENSE THAT IS AVAILABLE ON THE PLUGIN PAGE YOU
- * DOWNLOADED FROM DMPLUGINS.COM. IF YOU WANT TO USE ANY PLUGIN MADE BY ME IN
- * IN A COMMERCIAL PROJECT, YOU MIGHT HAVE TO BUY THE APPROPRIATE LICENSE FIRST. 
- * (ALSO, AVAILABLE ON THE PLUGIN PAGE.)
+ * ✅ DM_LimitedInventory.js
+ * ✅ DM_ItemCategories.js
+ * ✅ VisuMZ_1_ItemsEquipsCore.js
  *
- * I am not responsible if this plugin doesn't work for other versions of 
- * rpg maker MZ other than the latest version, 1.8.0. Please report any bugs
- * in the comments on dmplugins.com only after you have verified this.
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * 4. 🏷️ Notetags
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
- * ===========================================================================
- * How to Use
- * ===========================================================================
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * 4.1 🏷️ Note tags for $dataItems, $dataWeapons and $dataArmors
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
- * This is an advanced plugin that will help you create highly customizable shops 
- * for your game. You can set items to be infinite or have a limited stock. You
- * can change everything right down to the shop owners max amount of weight he
- * can hold or the max amount of gold he can spend. Furthermore, most, if not
- * all, of it is optional. If you leave the parameter field blank it will exclude 
- * that feature entirely.
+ * ───────────────────────────────────────────────────────────────────────────
+ * <Cannot Sell>
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ This will disallow an item, weapon, or armor to be sold and display a
+ * message to notify the player.
  *
- * You must define your custom shops within the "Shop Manager" section of the
- * plugin parameters. You can then call your custom shop from within the game
- * using script calls or plugin commands. (More info on that below)
- *
- * ===========================================================================
- * Script Calls
- * ===========================================================================
- *
- * ---------------------------------------------------------------------------
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * 5. 💡Script Calls
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * 
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.openCoreShop(shopId);
- * ---------------------------------------------------------------------------
- * *Opens the created shop with the following argument.
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ Opens the created shop with the following argument.
  *
  * shopId ➔ Choose the unique id of the shop you want to open. This ID can be
  * found to the left of each shop inside the 'Shop Manager' section of the
@@ -94,10 +124,10 @@ Dungeonmind.CS.version = 1.16;
  *  ➔ Opens the shop with ID 2 defined in the 'Shop Manager' section of the
  * plugin parameters.
  *
- * ---------------------------------------------------------------------------
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.changeShopGold(shopId, value);
- * ---------------------------------------------------------------------------
- * *Changes current gold for the shop with shopId by the value.
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ Changes current gold for the shop with shopId by the value.
  *
  * shopId ➔ Choose the unique id of the shop you want to open.
  * value ➔ It's a number. 
@@ -109,10 +139,10 @@ Dungeonmind.CS.version = 1.16;
  * $gameShop.changeShopGold(2, -200);
  *  ➔ Takes 200 gold from shop with shopId 2.
  *
- * ---------------------------------------------------------------------------
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.changeShopMaxWeight(shopId, value);
- * ---------------------------------------------------------------------------
- * *Changes the max weight for shopId.
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ Changes the max weight for shopId.
  *
  * shopId ➔ It's a number. 
  * The number on the left in shop manager where you define your shops is
@@ -126,10 +156,10 @@ Dungeonmind.CS.version = 1.16;
  * $gameShop.changeShopMaxWeight(2, -20);
  *  ➔ Decreases Shop with shopId maxWeight by -20.
  *
- * ---------------------------------------------------------------------------
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.addItemToShop(shopId, itemId, amount);
- * ---------------------------------------------------------------------------
- * *This will add a new item to a shop. The script call works the exact
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ This will add a new item to a shop. The script call works the exact
  * same as when the player sells items to a shop that retains them. (it will
  * appear at the bottom of the list unless the item exists already.)
  *
@@ -144,10 +174,10 @@ Dungeonmind.CS.version = 1.16;
  * $gameShop.addItemToShop(2, 3, 10);
  *  ➔ Adds x10 of item with id 3 to shop with id 2.
  *
- * ---------------------------------------------------------------------------
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.setItemShopStock(shopId, itemId, amount);
- * ---------------------------------------------------------------------------
- * *This will change the shop's stock of an item. If you set it to 0, it will 
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ This will change the shop's stock of an item. If you set it to 0, it will 
  * delete the item. You cannot set the stock of an item that has infinite
  * stock to anything other than 0 (This includes items with requirements).
  *
@@ -161,10 +191,10 @@ Dungeonmind.CS.version = 1.16;
  * $gameShop.setItemShopStock(4, 3, 10);
  *  ➔ Sets stock to 10 for item with id 2 for shop with id 4.
  *
- * ---------------------------------------------------------------------------
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.addWeaponToShop(shopId, weaponId, amount);
- * ---------------------------------------------------------------------------
- * *This will add a new weapon to a shop. The script call works the exact
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ This will add a new weapon to a shop. The script call works the exact
  * same as when the player sells weapons to a shop that retains them. (it will
  * appear at the bottom of the list unless the weapon exists already.)
  *
@@ -179,10 +209,10 @@ Dungeonmind.CS.version = 1.16;
  * $gameShop.addWeaponToShop(2, 35, 3);
  *  ➔ Adds x3 of weapon with id 35 to shop with id 2.
  *
- * ---------------------------------------------------------------------------
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.setWeaponShopStock(shopId, weaponId, amount);
- * ---------------------------------------------------------------------------
- * *This will change the shop's stock of a weapon. If you set it to 0, it will 
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ This will change the shop's stock of a weapon. If you set it to 0, it will 
  * delete the weapon. You cannot set the stock of a weapon that has infinite
  * stock to anything other than 0 (This includes weapons with requirements).
  *
@@ -196,10 +226,10 @@ Dungeonmind.CS.version = 1.16;
  * $gameShop.setWeaponShopStock(4, 3, 10);
  *  ➔ Sets stock to 10 for weapon with id 2 for shop with id 4.
  *
- * ---------------------------------------------------------------------------
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.addArmorToShop(shopId, armorId, amount);
- * ---------------------------------------------------------------------------
- * *This will add a new armor to a shop. The script call works the exact
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ This will add a new armor to a shop. The script call works the exact
  * same as when the player sells armors to a shop that retains them. (it will
  * appear at the bottom of the list unless the armor exists already.)
  *
@@ -214,10 +244,10 @@ Dungeonmind.CS.version = 1.16;
  * $gameShop.addArmorToShop(3, 2, 30);
  *  ➔ Adds x30 of armor with id 2 to shop with id 3.
  *
- * ---------------------------------------------------------------------------
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.setArmorShopStock(shopId, armorId, amount);
- * ---------------------------------------------------------------------------
- * *This will change the shop's stock of an armor. If you set it to 0, it will 
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ This will change the shop's stock of an armor. If you set it to 0, it will 
  * delete the armor. You cannot set the stock of an armor that has infinite
  * stock to anything other than 0 (This includes armors with requirements).
  *
@@ -231,10 +261,10 @@ Dungeonmind.CS.version = 1.16;
  * $gameShop.setArmorShopStock(4, 3, 10);
  *  ➔ Sets stock to 10 for armor with id 2 for shop with id 4.
  *
- * ---------------------------------------------------------------------------
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.setPriceForItem(shopId, itemId, price);
- * ---------------------------------------------------------------------------
- * *This will set a new database price for an item in a specified shop.
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ This will set a new database price for an item in a specified shop.
  *
  * shopId ➔ The number on the left in 'Shop Manager' is the shops id.
  * itemId ➔ The item id you want to change price for.
@@ -246,10 +276,10 @@ Dungeonmind.CS.version = 1.16;
  * $gameShop.setPriceForItem(2, 25, 500);
  *  ➔ Sets the price for item with ID 25 to 500 for shop with ID 2.
  *
- * ---------------------------------------------------------------------------
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.setPriceForWeapon(shopId, weaponId, price);
- * ---------------------------------------------------------------------------
- * *This will set a new database price for a weapon in a specified shop.
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ This will set a new database price for a weapon in a specified shop.
  *
  * shopId ➔ The number on the left in 'Shop Manager' is the shops id.
  * weaponId ➔ The weapon id you want to change price for.
@@ -261,10 +291,10 @@ Dungeonmind.CS.version = 1.16;
  * $gameShop.setPriceForWeapon(2, 6, 700);
  *  ➔ Sets the price for weapon with ID 6 to 700 for shop with ID 2.
  *
- * ---------------------------------------------------------------------------
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.setPriceForArmor(shopId, armorId, price);
- * ---------------------------------------------------------------------------
- * *This will set a new database price for an armor in a specified shop.
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ This will set a new database price for an armor in a specified shop.
  *
  * shopId ➔ The number on the left in 'Shop Manager' is the shops id.
  * armorId ➔ The armor id you want to change price for.
@@ -276,10 +306,10 @@ Dungeonmind.CS.version = 1.16;
  * $gameShop.setPriceForArmor(2, 6, 700);
  *  ➔ Sets the price for armor with ID 6 to 700 for shop with ID 2.
  *
- * ---------------------------------------------------------------------------
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.changePricesForShopGoods(shopId, multiplier);
- * ---------------------------------------------------------------------------
- * *This will change prices for all items in a shop (even hidden items).
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ This will change prices for all items in a shop (even hidden items).
  * This script call will not stack but instead is intended to allow the
  * developer to change the prices of the database by percent.
  *
@@ -300,10 +330,10 @@ Dungeonmind.CS.version = 1.16;
  *  ➔ This will neither increase or decrease prices for the shop but
  * instead will set the prices back to normal.
  *
- * ---------------------------------------------------------------------------
+ * ───────────────────────────────────────────────────────────────────────────
  * $gameShop.clearShopContents(shopId);
- * ---------------------------------------------------------------------------
- * *This will clear the entire shop's contents for shopId.
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ This will clear the entire shop's contents for shopId.
  *
  * shopId ➔ The number on the left in 'Shop Manager' is the shops id.
  *
@@ -313,15 +343,114 @@ Dungeonmind.CS.version = 1.16;
  * $gameShop.clearShopContents(6);
  *  ➔ Clears the entire contents for the shop with ID 6.
  *
- * ===========================================================================
- * Note Tags ~ $dataItems, $dataWeapons, and $dataArmors
- * ===========================================================================
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * 6. 🔀 Conditional Script Calls
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  *
- * ---------------------------------------------------------------------------
- * <Cannot Sell>
- * ---------------------------------------------------------------------------
- * *This will disallow an item, weapon, or armor to be sold and display a
- * message to notify the player.
+ * ───────────────────────────────────────────────────────────────────────────
+ * $gameShop.getShopsCurrentGold(shopId);
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ Use this script call in a Conditional Branch to check the current gold 
+ * amount of a specific shop. Compare the result to a gold amount using a 
+ * comparison operator (e.g. >=, <=, ===). Note that if the shop does not use 
+ * the Gold feature, this script call will return Infinity, causing comparisons 
+ * for "enough gold" to always be true.
+ *
+ * shopId ➔ The number on the left in 'Shop Manager' is the shops id.
+ *
+ * Examples :
+ * $gameShop.getShopsCurrentGold(1) >= 500;
+ *  ➔ Activates the true condition of the condtional branch if the shop has
+ * enough gold.
+ * $gameShop.getShopsCurrentGold(2) <= 500;
+ *  ➔ Activates the true condition if the shop doesn't have enough gold.
+ *
+ * ───────────────────────────────────────────────────────────────────────────
+ * $gameShop.getShopStockQuantityForItem(shopId, itemId);
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ Use this script call in a Conditional Branch to check the current stock
+ * quantity of a specific item in a shop. Compare the result to a quantity
+ * using a comparison operator (e.g. >=, <=, ===).
+ *
+ * Note:
+ * If the item's stock is unlimited, this script call will return Infinity.
+ * If the item has requirements, it will be skipped and the function will
+ * return 0 if the item is not found without requirements.
+ *
+ * shopId ➔ The number on the left in 'Shop Manager' is the shop's id.
+ * itemId ➔ The ID of the item to check the stock quantity for.
+ *
+ * Examples :
+ * $gameShop.getShopStockQuantityForItem(1, 5) >= 1;
+ * ➔ Activates the true condition of the conditional branch if the shop has
+ * at least 1 of the item and no requirements.
+ * $gameShop.getShopStockQuantityForItem(1, 5) === 0;
+ * ➔ Activates the true condition if the shop is out of the item or the item 
+ * has requirements.
+ *
+ * ───────────────────────────────────────────────────────────────────────────
+ * $gameShop.getShopStockQuantityForWeapon(shopId, weaponId);
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ Use this script call in a Conditional Branch to check the current stock
+ * quantity of a specific weapon in a shop. Compare the result to a quantity
+ * using a comparison operator (e.g. >=, <=, ===).
+ *
+ * Note:
+ * If the weapon's stock is unlimited, this script call will return Infinity.
+ * If the weapon has requirements, it will be skipped and the function will
+ * return 0 if the weapon is not found without requirements.
+ *
+ * shopId ➔ The number on the left in 'Shop Manager' is the shop's id.
+ * weaponId ➔ The ID of the weapon to check the stock quantity for.
+ *
+ * Examples :
+ * $gameShop.getShopStockQuantityForWeapon(1, 5) >= 1;
+ * ➔ Activates the true condition of the conditional branch if the shop has
+ * at least 1 of the weapon and no requirements.
+ * $gameShop.getShopStockQuantityForWeapon(1, 5) === 0;
+ * ➔ Activates the true condition if the shop is out of the weapon or the 
+ * weapon has requirements.
+ *
+ * ───────────────────────────────────────────────────────────────────────────
+ * $gameShop.getShopStockQuantityForArmor(shopId, armorId);
+ * ───────────────────────────────────────────────────────────────────────────
+ * ⓘ Use this script call in a Conditional Branch to check the current stock
+ * quantity of a specific armor in a shop. Compare the result to a quantity
+ * using a comparison operator (e.g. >=, <=, ===).
+ *
+ * Note:
+ * If the armor's stock is unlimited, this script call will return Infinity.
+ * If the armor has requirements, it will be skipped and the function will
+ * return 0 if the armor is not found without requirements.
+ *
+ * shopId ➔ The number on the left in 'Shop Manager' is the shop's id.
+ * armorId ➔ The ID of the armor to check the stock quantity for.
+ *
+ * Examples :
+ * $gameShop.getShopStockQuantityForArmor(1, 5) >= 1;
+ * ➔ Activates the true condition of the conditional branch if the shop has
+ * at least 1 of the armor and no requirements.
+ * $gameShop.getShopStockQuantityForArmor(1, 5) === 0;
+ * ➔ Activates the true condition if the shop is out of the armor or the 
+ * armor has requirements.
+ *
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ * 7. 🔓 Benefits of Registration
+ * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ *
+ * ⓘ By registering on our official website, you can unlock exclusive benefits,
+ * including:
+ *
+ * ★ Hassle-free website experience
+ * ★ Dedicated profile with access to all paid plugins and licences
+ * ★ Priority support for our plugins
+ * ★ Access to exclusive plugins
+ * ★ Submit bug reports, feature requests, and commission requests
+ *
+ * Register now and gain instant access to exclusive features and friendly 
+ * support! You can click the link above or go directly to the following URL:
+ *
+ * 🌐 https://www.dmplugins.com/register/
  *
  *
  * @param Inventory Type
@@ -363,8 +492,8 @@ Dungeonmind.CS.version = 1.16;
  * @text Shop Manager
  * @type struct<shopManager>[]
  * @default ["{\"Shop Name\":\"Default Shop\",\"Shop Icon\":\"208\",\"Max Storage\":\"\",\"Shop Gold\":\"\",\"Retain Items?\":\"true\",\"Auto-Unlock Items?\":\"true\",\"Items\":\"[\\\"{\\\\\\\"Item Id\\\\\\\":\\\\\\\"7\\\\\\\",\\\\\\\"Amount\\\\\\\":\\\\\\\"5\\\\\\\",\\\\\\\"Item Requirements\\\\\\\":\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Item Id\\\\\\\":\\\\\\\"8\\\\\\\",\\\\\\\"Amount\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"Item Requirements\\\\\\\":\\\\\\\"\\\\\\\"}\\\",\\\"{\\\\\\\"Item Id\\\\\\\":\\\\\\\"9\\\\\\\",\\\\\\\"Amount\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"Item Requirements\\\\\\\":\\\\\\\"\\\\\\\"}\\\"]\",\"Weapons\":\"[\\\"{\\\\\\\"Weapon Id\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"Amount\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"Item Requirements\\\\\\\":\\\\\\\"[\\\\\\\\\\\\\\\"{\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"Item Id\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"14\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"Amount\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"2\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"}\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\"{\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"Item Id\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"15\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\",\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"Amount\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\":\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"1\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"}\\\\\\\\\\\\\\\"]\\\\\\\"}\\\"]\",\"Armors\":\"[\\\"{\\\\\\\"Armor Id\\\\\\\":\\\\\\\"27\\\\\\\",\\\\\\\"Amount\\\\\\\":\\\\\\\"\\\\\\\",\\\\\\\"Item Requirements\\\\\\\":\\\\\\\"\\\\\\\"}\\\"]\"}"]
- * @desc Configure new shops. Changing the
- * order will match the id with the index.
+ * @desc Define and manage custom shops. Shop order determines ID, 
+ * with each shop's position matching its assigned ID.
  *
  * @param Window_Help (Terms)
  * @default
@@ -396,6 +525,18 @@ Dungeonmind.CS.version = 1.16;
  * @desc Text displayed when the shop doesn't have enough space
  * to buy an an item or item(s). (text codes allowed).
  * @default "\\c[2]There is not enough available shop Space. Try dropping some items first.\\c[0]"
+ *
+ * @param Buy Max Default
+ * @type note
+ * @parent Window_Help (Terms)
+ * @desc Text displayed when withdrawing exceeds item max default (text codes allowed).
+ * @default "\\c[2]You can't buy that many of this item!\\c[0]"
+ *
+ * @param Sell Max Default
+ * @type note
+ * @parent Window_Help (Terms)
+ * @desc Text displayed when depositing exceeds item max default (text codes allowed).
+ * @default "\\c[2]You can't sell that many of this item!\\c[0]"
  *
  * @command openCoreShop 
  * @text Open Shop by ID
@@ -812,20 +953,23 @@ PluginManager.registerCommand('DM_CoreShop', 'clearShopContents' , args => {
 // Parameters
 //-----------------------------------------------------------------------------
 
- Dungeonmind.CS.parameters = PluginManager.parameters('DM_CoreShop');
+Dungeonmind.CS.parameters = PluginManager.parameters('DM_CoreShop');
 
- Dungeonmind.CS.inventoryType = Dungeonmind.CS.parameters['Inventory Type'] || 'Item Weight';
- Dungeonmind.CS.unlockNewStockSE = Dungeonmind.CS.parameters['Unlock New Stock SE'];
- Dungeonmind.CS.unlockNewStockText = Dungeonmind.CS.parameters['Unlock New Stock Text'];
- Dungeonmind.CS.infiniteSymbol = Dungeonmind.CS.parameters['Infinite Symbol'];
- Dungeonmind.CS.shopGoldIconIndex = parseInt(Dungeonmind.CS.parameters['Shop Gold Icon Index']);
- Dungeonmind.CS.shopStatusWindowWidth = parseInt(Dungeonmind.CS.parameters['Shop Status Window Width']);
- Dungeonmind.CS.shopManager = JSON.parse(Dungeonmind.CS.parameters['Shop Manager'] || '[""]');
- //*~ Terms ~*
- Dungeonmind.CS.surpassMaxShopGoldText = Dungeonmind.CS.parameters['Surpass Max Shop Gold'] || "\\c[2]The shop has insufficient Gold to make this purchase!\\c[0]";
- Dungeonmind.CS.surpassMaxInvGoldText = Dungeonmind.CS.parameters['Surpass Max Inv. Gold'] || "\\c[2]The player has insufficient Gold to make this purchase!\\c[0]";
- Dungeonmind.CS.surpassMaxInvWeightText = Dungeonmind.CS.parameters['Surpass Max Inv. Weight'] || "\\c[2]There is not enough available inventory Space! Try dropping or selling some items first.\\c[0]";
- Dungeonmind.CS.surpassMaxShopWeightText = Dungeonmind.CS.parameters['Surpass Max Shop Weight'] || "\\c[2]There is not enough available shop Space. Try dropping some items first.\\c[0]";
+Dungeonmind.CS.inventoryType = Dungeonmind.CS.parameters['Inventory Type'] || 'Item Weight';
+Dungeonmind.CS.unlockNewStockSE = Dungeonmind.CS.parameters['Unlock New Stock SE'];
+Dungeonmind.CS.unlockNewStockText = Dungeonmind.CS.parameters['Unlock New Stock Text'];
+Dungeonmind.CS.infiniteSymbol = Dungeonmind.CS.parameters['Infinite Symbol'];
+Dungeonmind.CS.shopGoldIconIndex = parseInt(Dungeonmind.CS.parameters['Shop Gold Icon Index']);
+Dungeonmind.CS.shopStatusWindowWidth = parseInt(Dungeonmind.CS.parameters['Shop Status Window Width']);
+Dungeonmind.CS.shopManager = JSON.parse(Dungeonmind.CS.parameters['Shop Manager'] || '[""]');
+//*~ Terms ~*
+Dungeonmind.CS.surpassMaxShopGoldText = Dungeonmind.CS.parameters['Surpass Max Shop Gold'] || "\\c[2]The shop has insufficient Gold to make this purchase!\\c[0]";
+Dungeonmind.CS.surpassMaxInvGoldText = Dungeonmind.CS.parameters['Surpass Max Inv. Gold'] || "\\c[2]The player has insufficient Gold to make this purchase!\\c[0]";
+Dungeonmind.CS.surpassMaxInvWeightText = Dungeonmind.CS.parameters['Surpass Max Inv. Weight'] || "\\c[2]There is not enough available inventory Space! Try dropping or selling some items first.\\c[0]";
+Dungeonmind.CS.surpassMaxShopWeightText = Dungeonmind.CS.parameters['Surpass Max Shop Weight'] || "\\c[2]There is not enough available shop Space. Try dropping some items first.\\c[0]";
+Dungeonmind.CS.surpassItemMaxDefaultForBuying = Dungeonmind.CS.parameters['Buy Max Default'] || "\\c[2]You can't buy that many of this item!\\c[0]";
+Dungeonmind.CS.surpassItemMaxDefaultForSelling = Dungeonmind.CS.parameters['Sell Max Default'] || "\\c[2]You can't sell that many of this item!\\c[0]";
+
 //-----------------------------------------------------------------------------
 // Game_Shop
 //
@@ -1155,7 +1299,7 @@ Game_Shop.prototype.convertItemsToStoredGoods = function() {
                 item = {...itemObj}; //BugFix for compatiblity with VisuStella ItemEquipsCore
                 item.amount = this._coreShops[i]['Items'][i2].Amount;
                 //* For Item Reqs
-                if(this._coreShops[i]['Items'][i2]['Item Requirements']) {
+                if(this._coreShops[i]['Items'][i2]['Item Requirements'] && this._coreShops[i]['Items'][i2]['Item Requirements'].length > 0) {
                     item.itemRequirements = [];
                     item.itemRequirements = this._coreShops[i]['Items'][i2]['Item Requirements'];
                 }
@@ -1196,7 +1340,7 @@ Game_Shop.prototype.convertWeaponsToStoredGoods = function() {
                 item = {...itemObj};
                 item.amount = this._coreShops[i]['Weapons'][i2].Amount;
                 //* For Item Reqs
-                if(this._coreShops[i]['Weapons'][i2]['Item Requirements']) {
+                if(this._coreShops[i]['Weapons'][i2]['Item Requirements'] && this._coreShops[i]['Weapons'][i2]['Item Requirements'].length > 0) {
                     item.itemRequirements = [];
                     item.itemRequirements = this._coreShops[i]['Weapons'][i2]['Item Requirements'];
                 }
@@ -1237,7 +1381,7 @@ Game_Shop.prototype.convertArmorsToGoods = function() {
                 item = {...itemObj};
                 item.amount = this._coreShops[i]['Armors'][i2].Amount;
                 //* For Item Reqs
-                if(this._coreShops[i]['Armors'][i2]['Item Requirements']) {
+                if(this._coreShops[i]['Armors'][i2]['Item Requirements'] && this._coreShops[i]['Armors'][i2]['Item Requirements'].length > 0) {
                     item.itemRequirements = [];
                     item.itemRequirements = this._coreShops[i]['Armors'][i2]['Item Requirements'];
                 }
@@ -1286,6 +1430,8 @@ Game_Shop.prototype.initHelpWarningTerms = function() {
 	this._surpassMaxInvGoldText = JSON.parse(Dungeonmind.CS.surpassMaxInvGoldText);
  	this._surpassMaxInvWeightText = JSON.parse(Dungeonmind.CS.surpassMaxInvWeightText);
  	this._surpassMaxShopWeightText = JSON.parse(Dungeonmind.CS.surpassMaxShopWeightText);
+ 	this._surpassItemMaxDefaultForBuying = JSON.parse(Dungeonmind.CS.surpassItemMaxDefaultForBuying);
+ 	this._surpassItemMaxDefaultForSelling = JSON.parse(Dungeonmind.CS.surpassItemMaxDefaultForSelling);
 };
 
 Game_Shop.prototype.checkItemInfinity = function(item) {
@@ -1419,13 +1565,17 @@ Game_Shop.prototype.sellItem = function(item, amount) {
     id = 0;
     id = item.id;
     etypeId = item.etypeId;
-    storedDataContents.push({itemId: id, amount : amount, etypeId : etypeId});
+    if (this._coreShops[this._tempShopId]['Retain Items?']) { //*~ Bug Fix, Do Not add item if retiain items is false.
+    	storedDataContents.push({itemId: id, amount : amount, etypeId : etypeId});
+	}
     item.amount = amount;
     if(item.meta.itemWeight){item.itemWeight = item.meta.itemWeight};
     item.retained = this._coreShops[this._tempShopId]['Retain Items?'];
     item.infinite = false;
     item.unlockStatus = 0;
-    storedContents.push(item);
+    if (this._coreShops[this._tempShopId]['Retain Items?']) { //*~ Bug Fix, Do Not add item if retiain items is false.
+    	storedContents.push(item);
+	}
     this.checkUnlocks();
 };
 
@@ -1553,6 +1703,9 @@ Game_Shop.prototype.checkAvailableShopSlotSpace = function(amount) { // For Slot
     let remainder = this.getCurrentShopMaxWeight() - this.getCurrentShopWeight();
     let item = SceneManager._scene._sellWindow.item();
     let items = this._coreShops[this._tempShopId]._storedDataContents;
+    if(!item) {
+    	return true; //Bug Fix to stop crash when no items left
+    }
     if(this.limitedInvPluginCheck()) {
       itemMax = Dungeonmind.LI.itemMaxDefault;
     } else {
@@ -1578,10 +1731,82 @@ Game_Shop.prototype.checkAvailableShopSlotSpace = function(amount) { // For Slot
     }
 };
 
+//*~ Added June 11th, 2025
+
+Game_Shop.prototype.getPartyCurrentAmountForItem = function(item) { // Party Amount for Item
+	let partyCurrentAmount;
+	if (item.etypeId === 1) {
+    	partyCurrentAmount = $gameParty._weapons[item.id] || 0;
+	} else if (item.etypeId > 1) {
+    	partyCurrentAmount = $gameParty._armors[item.id] || 0;
+	} else {
+    	partyCurrentAmount = $gameParty._items[item.id] || 0;
+	}
+	return partyCurrentAmount;
+};
+
+Game_Shop.prototype.checkItemMaxDefaultForInventory = function(amount, item) { // Inventory: Default Max Items
+    const itemMaxDefault = parseInt(Dungeonmind.LI?.itemMaxDefault) || 99;
+    const currentAmount = this.getPartyCurrentAmountForItem(item);
+    return currentAmount + parseInt(amount) <= itemMaxDefault;
+};
+
+Game_Shop.prototype.setShopItemAmount = function(amount, coreShop, item) {
+	for (let i = 0; i < coreShop._storedContents.length; i++) {
+		if (coreShop._storedContents[i].id === item.id && coreShop._storedContents[i].etypeId === item.etypeId) {
+			coreShop._storedContents[i].amount = amount;
+		}
+	}
+};
+
+Game_Shop.prototype.checkItemMaxDefaultForShop = function(amount, item) { // Shop: Default Max Items
+	const shopId = this._tempShopId;
+	const coreShops = this._coreShops[shopId];
+	const itemMaxDefault = (Dungeonmind.LI && Dungeonmind.LI.itemMaxDefault === '' ? Infinity : parseInt(Dungeonmind.LI.itemMaxDefault)) || 99;
+	for (let i = 0; i < coreShops._storedContents.length; i++) {
+		if(coreShops._storedContents[i].id === item.id && coreShops._storedContents[i].etypeId === item.etypeId) {
+			let shopAmount = coreShops._storedContents[i].amount === '' ? Infinity : parseInt(coreShops._storedContents[i].amount) || 0;
+			let boolean = shopAmount + parseInt(amount) <= itemMaxDefault;
+			if (boolean) {
+				this.setShopItemAmount(shopAmount + parseInt(amount), coreShops, item);
+			}
+			return boolean;
+		}
+	}
+	let boolean = parseInt(amount) <= itemMaxDefault;
+	return boolean; // Item not found, add new item.
+};
+
+Game_Shop.prototype.checkItemMaxDefaultForShop = function(amount, item) { // Shop: Default Max Items
+	const shopId = this._tempShopId;
+	const coreShops = this._coreShops[shopId];
+	const itemMaxDefault = parseInt(Dungeonmind.LI?.itemMaxDefault) || 99;
+	for (let i = 0; i < coreShops._storedContents.length; i++) {
+		if(coreShops._storedContents[i].id === item.id && coreShops._storedContents[i].etypeId === item.etypeId) {
+			let shopAmount = coreShops._storedContents[i].amount === '' ? Infinity : parseInt(coreShops._storedContents[i].amount);
+			if (shopAmount === Infinity) {
+				return true; // If shop amount is infinite, allow deposit
+			} else {
+				let boolean = shopAmount + parseInt(amount) <= itemMaxDefault;
+				if (boolean) {
+					this.setShopItemAmount(shopAmount + parseInt(amount), coreShops, item);
+				}
+				return boolean
+			}
+		}
+	}
+	let boolean = parseInt(amount) <= itemMaxDefault;
+	return boolean; // Item not found, add new item.
+};
+
+//~*
+
 Game_Shop.prototype.checkAvailableInventorySpace = function(amount) { // For Inventory
   if(Dungeonmind.LI.inventoryType === 'Item Weight') {
       let remainder = $gameContainers.getCurrentPartyInventoryMaxWeight() - $gameContainers.getCurrentPartyInventoryWeight();
       let item = SceneManager._scene._buyWindow.item();
+      let currentAmount = $gameShop.getPartyCurrentAmountForItem(item);
+	  return currentAmount + amount <= Dungeonmind.LI.itemMaxDefault;
       if(item !== null && item !== undefined && item.itemWeight) {
           amount = amount*Number(item.itemWeight);
       }
@@ -1599,22 +1824,25 @@ Game_Shop.prototype.checkAvailableInventorySlotSpace = function(amount) { // For
     let remainder = $gameContainers.getCurrentPartyInventoryMaxWeight() - $gameContainers.getCurrentPartyInventoryWeight();
     let item = SceneManager._scene._buyWindow.item();
     let items = $gameParty.allItems();
+    if(!item) {
+    	return true; //Bug Fix to stop crash when no items left
+    }
     for(let i = 0; i < items.length; i++) {
         if(items[i].etypeId === item.etypeId && items[i].id === item.id) {
             if(items[i].etypeId === 1) {
-                if($gameParty._weapons[items[i].id] + amount < Dungeonmind.LI.itemMaxDefault) {
+                if($gameParty._weapons[items[i].id] + amount <= Dungeonmind.LI.itemMaxDefault) {
                     return true;
                 } else {
                     return false;
                 }
             } else if(items[i].etypeId > 1) {
-                if($gameParty._armors[items[i].id] + amount < Dungeonmind.LI.itemMaxDefault) {
+                if($gameParty._armors[items[i].id] + amount <= Dungeonmind.LI.itemMaxDefault) {
                     return true;
                 } else {
                     return false;
                 }
             } else if(items[i].etypeId === undefined) {
-                if($gameParty._items[items[i].id] + amount < Dungeonmind.LI.itemMaxDefault) {
+                if($gameParty._items[items[i].id] + amount <= Dungeonmind.LI.itemMaxDefault) {
                     return true;
                 } else {
                     return false;
@@ -1796,6 +2024,79 @@ Game_Shop.prototype.clearShopContents = function(shopId) {
 	const id = shopId-1;
 	this._coreShops[id]._storedContents = [];
 	this._coreShops[id]._storedDataContents = [];
+};
+
+//*~ Useful Conditonal Script calls
+
+Game_Shop.prototype.getShopsCurrentGold = function(shopId) {
+	if (this._coreShops[shopId-1]['Shop Gold']) {
+		return this._coreShops[shopId-1]['Shop Gold'];
+	} else {
+		return Infinity;
+	}
+};
+
+Game_Shop.prototype.getShopStockQuantityForItem = function(shopId, itemId) {
+	const dataItems = this._coreShops[shopId-1]['Items'];
+	for (let i = 0; i < dataItems.length; i++) {
+		const requirements = dataItems[i]['Item Requirements'];
+		if (Array.isArray(requirements) && requirements.length > 0) {
+			continue;
+		}
+		const item = dataItems[i];
+		for (let i2 = 0; i2 < this._coreShops[shopId-1]._storedDataContents.length; i2++) {
+			const storedData = this._coreShops[shopId-1]._storedDataContents[i2];
+			if (storedData.itemId === itemId && storedData.etypeId === undefined) {
+				if (storedData.amount === '') {
+					return Infinity;
+				}
+				return storedData.amount;
+			}
+		}
+	}
+	return 0;
+};
+
+Game_Shop.prototype.getShopStockQuantityForWeapon = function(shopId, itemId) {
+    const dataItems = this._coreShops[shopId-1]['Weapons'];
+    for (let i = 0; i < dataItems.length; i++) {
+        const requirements = dataItems[i]['Item Requirements'];
+        if (Array.isArray(requirements) && requirements.length > 0) {
+            continue;
+        }
+        const item = dataItems[i];
+        for (let i2 = 0; i2 < this._coreShops[shopId-1]._storedDataContents.length; i2++) {
+            const storedData = this._coreShops[shopId-1]._storedDataContents[i2];
+            if (storedData.itemId === itemId && storedData.etypeId === 1) {
+                if (storedData.amount === '') {
+                    return Infinity;
+                }
+                return storedData.amount;
+            }
+        }
+    }
+    return 0;
+};
+
+Game_Shop.prototype.getShopStockQuantityForArmor = function(shopId, itemId) {
+    const dataItems = this._coreShops[shopId-1]['Armors'];
+    for (let i = 0; i < dataItems.length; i++) {
+        const requirements = dataItems[i]['Item Requirements'];
+        if (Array.isArray(requirements) && requirements.length > 0) {
+            continue;
+        }
+        const item = dataItems[i];
+        for (let i2 = 0; i2 < this._coreShops[shopId-1]._storedDataContents.length; i2++) {
+            const storedData = this._coreShops[shopId-1]._storedDataContents[i2];
+            if (storedData.itemId === itemId && storedData.etypeId > 1) {
+                if (storedData.amount === '') {
+                    return Infinity;
+                }
+                return storedData.amount;
+            }
+        }
+    }
+    return 0;
 };
 
 //--------------------------------------------------------------------------------------
@@ -2289,53 +2590,68 @@ Scene_CoreShop.prototype.getItemType = function(item) {
 };
 
 Scene_CoreShop.prototype.onNumberOk = function() {
-    if(this._commandWindow.currentSymbol() === 'sell') {
-    	sellItem = SceneManager._scene._sellWindow.item();
-    	if(sellItem.meta['Cannot Sell']) {
-    		SoundManager.playBuzzer();
-        	this._numberWindow.activate();
-        	this._helpWindow.setWarningText('This ' + this.getItemType(sellItem) + ' cannot be sold!');
-        	return;
-    	}
+    if (this._commandWindow.currentSymbol() === 'sell') {
+        sellItem = SceneManager._scene._sellWindow.item();
+        if (sellItem.meta['Cannot Sell']) {
+            SoundManager.playBuzzer();
+            this._numberWindow.activate();
+            this._helpWindow.setWarningText('This ' + this.getItemType(sellItem) + ' cannot be sold!');
+            return 'cannot_sell_item';
+        }
     };
     let shopGold = $gameShop._coreShops[$gameShop._tempShopId].shopGold;
-    if(this._commandWindow.currentSymbol() === 'sell' && shopGold === 0) {
-        SoundManager.playBuzzer();
-        this._numberWindow.activate();
-        this._helpWindow.setWarningText($gameShop._surpassMaxShopGoldText);
-        return;
-    }
-    if(this._commandWindow.currentSymbol() === 'sell' && shopGold && shopGold < this.sellingPrice() * this._numberWindow.number()) {
-        SoundManager.playBuzzer();
-        this._numberWindow.activate();
-        this._helpWindow.setWarningText($gameShop._surpassMaxShopGoldText);
-        return;
-    }
-    if($gameShop.limitedInvPluginCheck() && this._commandWindow.currentSymbol() === 'buy') {
-        if(!$gameShop.checkAvailableInventorySpace(this._numberBuyWindow._number)) {
+	if (this._commandWindow.currentSymbol() === 'sell' && shopGold !== '' && shopGold < this.sellingPrice() * this._numberWindow.number()) {
+    	SoundManager.playBuzzer();
+    	this._numberWindow.activate();
+    	this._helpWindow.setWarningText($gameShop._surpassMaxShopGoldText);
+    	return 'insufficient_shop_gold';
+	}
+    if ($gameShop.limitedInvPluginCheck() && this._commandWindow.currentSymbol() === 'buy') {
+        //*~ Check Item Max Default For Inventory
+        if (!$gameShop.checkItemMaxDefaultForInventory(this._numberBuyWindow._number, this._numberBuyWindow._item)) {
+            SoundManager.playBuzzer();
+            this._helpWindow.setWarningText($gameShop._surpassItemMaxDefaultForBuying);
+            this._numberBuyWindow.activate();
+            return 'item_max_default_buying';
+        }
+        //*~ Check Inventory Space
+        if (!$gameShop.checkAvailableInventorySpace(this._numberBuyWindow._number)) {
             SoundManager.playBuzzer();
             title = this.removeTextCodes(Dungeonmind.LI.inventoryTitle);
             this._helpWindow.setWarningText($gameShop._surpassMaxInvWeightText);
             this._numberBuyWindow.activate();
-            return;
+            return 'inventory_overweight';
         }
     }
-    if($gameShop._coreShops[$gameShop._tempShopId].maxWeight > 0 && this._commandWindow.currentSymbol() === 'sell') {
-        if(!$gameShop.checkAvailableShopSpace(this._numberWindow._number)) {
+    if (this._commandWindow.currentSymbol() === 'sell') {
+        //*~ Check Item Max Default For Sell Window
+        if (!$gameShop.checkItemMaxDefaultForShop(this._numberWindow._number, SceneManager._scene._sellWindow.item())) {
             SoundManager.playBuzzer();
-            title = this.removeTextCodes($gameShop._coreShops[$gameShop._tempShopId]['Shop Name']);
-            this._helpWindow.setWarningText($gameShop._surpassMaxShopWeightText);
+            this._helpWindow.setWarningText($gameShop._surpassItemMaxDefaultForSelling);
             this._numberWindow.activate();
-            return;
+            return 'item_max_default_selling';
+        }
+        if ($gameShop._coreShops[$gameShop._tempShopId].maxWeight > 0) { //Infinity Check
+            //*~ Check Shop Space
+            if (!$gameShop.checkAvailableShopSpace(this._numberWindow.number())) {
+                SoundManager.playBuzzer();
+                //title = this.removeTextCodes($gameShop._coreShops[$gameShop._tempShopId]['Shop Name']);
+                this._helpWindow.setWarningText($gameShop._surpassMaxShopWeightText);
+                this._numberWindow.activate();
+                return 'shop_overweight';
+            }
         }
     }
-    if(this._commandWindow.currentSymbol() === 'buy' && $gameParty._gold < this._numberBuyWindow.number()*this._numberBuyWindow._item.price) {
+    if (this._commandWindow.currentSymbol() === 'buy') {
+        if ($gameParty._gold < this._numberBuyWindow.number() * this._numberBuyWindow._item.price) {
             SoundManager.playBuzzer();
             title = this.removeTextCodes($gameShop._coreShops[$gameShop._tempShopId]['Shop Name']);
             this._helpWindow.setWarningText($gameShop._surpassMaxInvGoldText);
             this._numberBuyWindow.activate();
-            return;
+            return 'insufficient_gold';
+        }
     }
+
     SoundManager.playShop();
     switch (this._commandWindow.currentSymbol()) {
         case "buy":
@@ -2348,6 +2664,7 @@ Scene_CoreShop.prototype.onNumberOk = function() {
     this.endNumberInput();
     this._goldWindow.refresh();
     this._statusWindow.refresh();
+    return 'success';
 };
 
 Scene_CoreShop.prototype.onNumberCancel = function() {
@@ -2512,7 +2829,6 @@ Scene_CoreShop.prototype.buyingPrice = function() {
     return this._buyWindow.price(this._item);
 };
 
-
 // Import necessary functions from NUUN_AnySellPrice.js
 var orderSellPriceList = orderSellPriceList || [];
 function getOrderSellPrice(item) {
@@ -2539,6 +2855,7 @@ Scene_CoreShop.prototype.sellingPrice = function() {
     const orderSellPrice = getOrderSellPrice(item);
     const sell = orderSellPrice > 0 ? orderSellPrice : sellPrice(this._item);
     return sell !== null ? sell : Math.floor(this._item.price / 2);
+    return Math.floor(this._item.price / 2);
 };
 
 Scene_CoreShop.prototype.createInventoryTitleWindow = function() {
@@ -2616,6 +2933,22 @@ Window_ShopNumber.prototype.initialize = function(rect) {
       this._max = 99;
       this._maxItems = 99;
     }
+};
+
+Dungeonmind.CS.ALIAS_WindowShopNumber_update = Window_ShopNumber.prototype.update;
+
+Window_ShopNumber.prototype.update = function() {
+	Dungeonmind.CS.ALIAS_WindowShopNumber_update.call(this);
+	if (SceneManager._scene._numberBuyWindow && SceneManager._scene._numberBuyWindow.isOpenAndActive()) {
+		this._item = SceneManager._scene._numberBuyWindow._item;
+	} else if (SceneManager._scene._numberWindow && SceneManager._scene._numberWindow.isOpenAndActive()) {
+		this._item = SceneManager._scene._numberWindow._item;
+	}
+	if (this._lastNumber !== this._number) {
+		SceneManager._scene._helpWindow.setItem(this._item);
+		SceneManager._scene._helpWindow.refresh();
+		this._lastNumber = this._number;
+	}
 };
 
 Window_ShopNumber.prototype.calculateItemCost = function(item) {
@@ -2749,6 +3082,7 @@ Window_ShopNumber.prototype.processNumberChange = function() {
     	}
     	//*~Selling Items
     	if (this.isOpenAndActive() && this._windowType === 'sell') {
+    		this._max = this.getItemDataAmountForSelling(this._item); //*Bug Fix!
     		if(Input.isRepeated("right") && this._number === this.getItemDataAmountForSelling(this._item) || Input.isRepeated("up") && this._number === this.getItemDataAmountForSelling(this._item)) {
         		SoundManager.playCursor();
         		this._number = 1;
@@ -3332,6 +3666,8 @@ Window_ShopStock.prototype.constructor = Window_ShopStock;
 Window_ShopStock.prototype.initialize = function(rect) {
     Window_StatusBase.prototype.initialize.call(this, rect);
     this.refresh();
+    this._lastItem = null;
+    this._lastAmount = '';
 };
 
 Window_ShopStock.prototype.refresh = function() {
@@ -3345,30 +3681,27 @@ Window_ShopStock.prototype.refresh = function() {
     this.drawRequirements();
 };
 
-// Window_ShopStock.prototype.drawShopStock = function() {
-//     const text = "Shop Possession";
-//     const x = 6;
-//     const y = 6 + this.lineHeight()*this._increment;
-//     const maxWidth = this.width;
-//     const align = 'left';
-//     let item = null;
-//     if(SceneManager._scene._buyWindow && SceneManager._scene._buyWindow.isOpenAndActive()) {
-//         item = SceneManager._scene._buyWindow.item();
-//         if(item !== null) {
-//             amount = $gameShop.getAmountSoldForItem(item)
-//         }
-//     }
-//     this.changeTextColor(ColorManager.systemColor());
-//     this.drawText(text, x, y, maxWidth, align);
-//     this.resetTextColor();
-//     let textWidth = this.textWidth("00");
-//     if(amount === '') {
-//         amount = Dungeonmind.CS.infiniteSymbol;   
-//     } else { 
-//         amount = String(amount);
-//     }
-//     this.drawText(amount, x-textWidth-16, y, maxWidth, 'right');
-// };
+Window_ShopStock.prototype.getMaxBuyQuantity = function(item) {
+    if (!item) return '';
+    let amount = $gameShop.getAmountSoldForItem(item);
+    if (item.itemRequirements) {
+        let maxQuantity = Infinity;
+        for (let i = 0; i < item.itemRequirements.length; i++) {
+            const reqItemId = item.itemRequirements[i]['Item Id'];
+            const reqAmount = item.itemRequirements[i]['Amount'];
+            const reqItem = $dataItems[reqItemId];
+            const amountSold = $gameShop.getAmountSoldForItem(reqItem);
+            const quantity = Math.floor(amountSold / reqAmount);
+            maxQuantity = Math.min(maxQuantity, quantity);
+        }
+        amount = String(maxQuantity);
+    } else if (amount === '') {
+        amount = Dungeonmind.CS.infiniteSymbol;
+    } else {
+        amount = String(amount);
+    }
+    return amount;
+};
 
 Window_ShopStock.prototype.drawShopStock = function() {
     const text = "Shop Possession";
@@ -3377,32 +3710,30 @@ Window_ShopStock.prototype.drawShopStock = function() {
     const maxWidth = this.width;
     const align = 'left';
     let item = null;
-    if (SceneManager._scene._buyWindow && SceneManager._scene._buyWindow.isOpenAndActive()) {
+    let amount = '';
+    if (SceneManager._scene._buyWindow && SceneManager._scene._buyWindow.item()) {
         item = SceneManager._scene._buyWindow.item();
-        if (item !== null) {
-            amount = $gameShop.getAmountSoldForItem(item);
-        }
+        amount = this.getMaxBuyQuantity(item);
+        this._lastItem = item; // Store the last item
+        this._lastAmount = amount; // Store the last possession number
+    } else if (this._lastItem) {
+        // Use the stored item and possession number if _buyWindow is not active
+        amount = this.getMaxBuyQuantity(this._lastItem);
     }
     this.changeTextColor(ColorManager.systemColor());
-    
-    // Change font size for "Shop Possession"
-    const originalFontSize = this.contents.fontSize;
-    this.contents.fontSize = 10; // Set your desired font size here
     this.drawText(text, x, y, maxWidth, align);
-    
     this.resetTextColor();
     let textWidth = this.textWidth("00");
-    if (amount === '') {
-        amount = Dungeonmind.CS.infiniteSymbol;
-    } else {
-        amount = String(amount);
-    }
     this.drawText(amount, x - textWidth - 16, y, maxWidth, 'right');
-    this.contents.fontSize = originalFontSize; // Reset to original font size
 };
 
 Window_ShopStock.prototype.drawItemWeight = function() {
-    let text = Dungeonmind.LI.itemWeightText;
+    let text;
+    if(Dungeonmind.LI) {
+    	text = Dungeonmind.LI.itemWeightText;
+	} else {
+		text = 'Item Weight';
+	}
     const x = 6;
     const y = 6 + this.lineHeight()*this._increment;
     const maxWidth = this.width;
@@ -3450,7 +3781,6 @@ Window_ShopStock.prototype.drawReqItems = function() {
         if(reqItems) {
             for(let i = 0; i < reqItems.length; i++) {
                 this._increment++;
-                console.log(this._increment);
                 y = 6 + this.lineHeight()*this._increment;
                 id = reqItems[i]['Item Id'];
                 amount = reqItems[i]['Amount'];
@@ -3550,6 +3880,22 @@ Window_ShopInventoryTitle.prototype.drawTitle = function(rect) {
     this.drawIcon(Dungeonmind.LI.inventoryIcon, x-16, 6);
 };
 
+Window_ShopInventoryTitle.prototype.drawTitle = function(rect) {
+    var title = Dungeonmind.LI.inventoryTitle;
+    var align = "left";
+    var maxWidth = Graphics.boxWidth / 2;
+    title2 = this.removeTextCodes(title);
+    let text = title2 + '(' + $gameContainers.getCurrentPartyInventoryWeight() + '/' + $gameContainers.getCurrentPartyInventoryMaxWeight() + ')'
+    var x = this.width / 2 - this.contents.measureTextWidth(text) / 2 - 16;
+    let drawText = title + '(' + $gameContainers.getCurrentPartyInventoryWeight() + '/' + $gameContainers.getCurrentPartyInventoryMaxWeight() + ')';
+    if ($gameContainers._overweightTextColorChange && $gameContainers.getCurrentPartyInventoryWeight() >= $gameContainers.getCurrentPartyInventoryMaxWeight()) {
+        drawText = drawText.replace(/\\c\[[0-9]+\]/gi, ''); // Remove existing color codes
+        drawText = '\\c[2]' + drawText + '\\c[0]'; // Use \c[2] for red color and reset
+    }
+    this.drawIcon(Dungeonmind.LI.inventoryIcon, x-16, 6);
+    this.drawTextEx(drawText, x+16, 6, maxWidth, align);
+};
+
 Window_ShopInventoryTitle.prototype.refresh = function() {
     this.contents.clear();
     this.drawTitle();
@@ -3633,7 +3979,7 @@ Window_UnlockConfirm.prototype.makeCommandList = function() {
 Window_ShopStatus.prototype.setItem = function(item) {
   if(item !== null && item !== undefined) {
     if(item.etypeId === undefined) {
-      this._item = item;
+      this._item = $dataItems[item.id];
       this.refresh();
     } else if(item.etypeId === 1) { //*weapons
       this._item = $dataWeapons[item.id];
