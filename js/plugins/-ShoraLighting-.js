@@ -2993,15 +2993,27 @@ class GameShadow {
             return 0;
         }
 
-        // todo: check for differ continous height
-        // wait how did it not bug this part
-        
-        // how?
+        // compute the row index at this horizontal boundary (tile row above)
         y = y / th - 1;
-        let x3 = Math.min(0, Math.max(this.lower[y].length, Math.floor(x1 / tw))),
-            x4 = Math.min(0, Math.max(this.lower[y].length, Math.ceil(x2 / tw)));
+        // out of bounds guard
+        if (y < 0 || y >= this.lower.length) return 0;
 
-        return Math.min(this.lower[y][x3], this.lower[y][x4]);
+        // clamp indices to valid tile columns
+        let w = this.lower[y].length;
+        let ix1 = Math.max(0, Math.min(w - 1, Math.floor(x1 / tw)));
+        let ix2 = Math.max(0, Math.min(w - 1, Math.ceil(x2 / tw)));
+
+        // if there is a lower wall at this boundary, return its height
+        let lowerMin = Math.min(this.lower[y][ix1], this.lower[y][ix2]);
+        if (lowerMin > 0) return lowerMin;
+
+        // if there's a top block (e.g., top roof / top terrain tag) present at either tile,
+        // treat it as a 1-tile blocker so light cannot spill upward past it
+        if ((this.map[y][ix1] && this.map[y][ix1] > 0) || (this.map[y][ix2] && this.map[y][ix2] > 0)) {
+            return 1;
+        }
+
+        return 0;
     }
 
 

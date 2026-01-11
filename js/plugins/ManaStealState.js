@@ -85,22 +85,22 @@
             return baseRepeats;
         }
 
-        const repeatRegex = /<repeat:\s*([\d.]+)\s*,\s*(\d+)\s*,\s*(\d+)\s*>/i;
+        //const repeatRegex = /<repeat:\s*([\d.]+)\s*,\s*(\d+)\s*,\s*(\d+)\s*>/i;
         const doubleHitRegex = /<doubleHit:\s*([\d.]+)\s*>/i;
 
         const checkSourceForRepeats = (source) => {
             if (!source || !source.note) return null;
 
             // <repeat> tag has priority
-            const repeatMatch = source.note.match(repeatRegex);
-            if (repeatMatch) {
-                const chance = parseFloat(repeatMatch[1]);
-                if (Math.random() < chance) {
-                    const min = parseInt(repeatMatch[2]);
-                    const max = parseInt(repeatMatch[3]);
-                    return Math.floor(Math.random() * (max - min + 1)) + min;
-                }
-            }
+            // const repeatMatch = source.note.match(repeatRegex);
+            // if (repeatMatch) {
+            //     const chance = parseFloat(repeatMatch[1]);
+            //     if (Math.random() < chance) {
+            //         const min = parseInt(repeatMatch[2]);
+            //         const max = parseInt(repeatMatch[3]);
+            //         return Math.floor(Math.random() * (max - min + 1)) + min;
+            //     }
+            // }
             
             // Check for <doubleHit>, but ONLY if the current action is Skill ID 2
             const doubleHitMatch = source.note.match(doubleHitRegex);
