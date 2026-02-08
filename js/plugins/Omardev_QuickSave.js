@@ -95,6 +95,9 @@
 
     // Quick save state tracker
     let isQuickSaveEnabled = true;
+    
+    // Reference to save message window for clearing on map transfer
+    let currentSaveMessageWindow = null;
 
     // Register plugin command
     PluginManager.registerCommand(pluginName, "SetQuickSave", args => {
@@ -163,7 +166,18 @@
     Scene_Map.prototype.createAllWindows = function() {
         _Scene_Map_createAllWindows.call(this);
         this._saveMessageWindow = new Window_SaveMessage();
+        currentSaveMessageWindow = this._saveMessageWindow;
         this.addWindow(this._saveMessageWindow);
+    };
+    
+    // Hook into map transfer to hide the save message window
+    const _Game_Player_reserveTransfer = Game_Player.prototype.reserveTransfer;
+    Game_Player.prototype.reserveTransfer = function(mapId, x, y, d, fadeType) {
+        if (currentSaveMessageWindow) {
+            currentSaveMessageWindow.contentsOpacity = 0;
+            currentSaveMessageWindow.hide();
+        }
+        _Game_Player_reserveTransfer.call(this, mapId, x, y, d, fadeType);
     };
 
     // Add key listener
