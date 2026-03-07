@@ -95,6 +95,7 @@ var $plugins =
 {"name":"MagicalHitRate","status":true,"description":"Makes skills with the \"Magical Attack\" hit type inherit the hit rate from physical attacks.","parameters":{}},
 {"name":"CustomTurnEnd","status":true,"description":"Customizes the turnEndOnMap behavior for Game_Actor.","parameters":{}},
 {"name":"MapSelectEquip","status":true,"description":"Allows the player to select a weapon or armor and stores the ID in a variable. The event pauses until selection is made.","parameters":{}},
+{"name":"MapSelectSkillState","status":true,"description":"Allows the player to select a skill or state and stores the ID in a variable.","parameters":{}},
 {"name":"CritSFX","status":true,"description":"v1.2 Plays a specified sound effect when a critical hit occurs.","parameters":{"seName":"Critical Hit C","volume":"90","pitch":"120","pan":"0"}},
 {"name":"EnemySE","status":true,"description":"Allows enemies to have custom Sound Effects for Attacking (any skill) and taking Damage.","parameters":{}},
 {"name":"LvMZ_FollowerTrailLimit","status":false,"description":"[v1.0] Lets you control the visual limit of followers.","parameters":{"id":"0"}},
