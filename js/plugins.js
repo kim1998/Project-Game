@@ -100,5 +100,6 @@ var $plugins =
 {"name":"EnemySE","status":true,"description":"Allows enemies to have custom Sound Effects for Attacking (any skill) and taking Damage.","parameters":{}},
 {"name":"LvMZ_FollowerTrailLimit","status":false,"description":"[v1.0] Lets you control the visual limit of followers.","parameters":{"id":"0"}},
 {"name":"GabeMZ_FollowersControl","status":false,"description":"[v1.1.0] Allows to control the followers via the event commands.","parameters":{}},
-{"name":"TileID_MZ","status":false,"description":"Show the TileID of the current tile the player is standing on.","parameters":{}}
+{"name":"TileID_MZ","status":false,"description":"Show the TileID of the current tile the player is standing on.","parameters":{}},
+{"name":"CustomMenu2","status":false,"description":"Custom Main Menu Prototype v1.0","parameters":{}}
 ];
